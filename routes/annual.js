@@ -13,8 +13,7 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
   resData = {
     meta_title: 'Annual Campaign Report',
     body_content: 'campaign-data',
-    data: data,
-    static_data: JSON.stringify(data)
+    data: JSON.stringify(data)
   }
   res.render('layout/defaultView', resData);
 }));

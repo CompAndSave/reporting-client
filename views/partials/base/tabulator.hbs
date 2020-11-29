@@ -1,26 +1,52 @@
-<div id="example-table">
-
-</div>
+<div id="example-table"></div>
 
 <script>
-  var tableData = JSON.parse('{{{static_data}}}')
-  console.log(tableData)
+  var percentageFormat = function(cell, formatterParams, onRendered){
+    return cell.getValue() + "%"
+  };
+  var tableData = JSON.parse('{{{data}}}')
   var table = new Tabulator("#example-table", {
-    layout:"fitDataTable",
+    layout: "fitColumns",
+    resizableColumns:true,
     columns: [
+      { title: "#", formatter:"rownum", frozen: true,  width:40, headerSort:false },
       { title: "Name", field: "name" },
-      { title: "Emails Sent", field: "emails_sent", hozAlign: "right", sorter: "number" },
-      { title: "Open Rate", field: "open_rate" },
-      { title: "Click Rate", field: "click_rate", hozAlign: "center" },
-      { title: "Deliverability Rate", field: "deliverability_rate" },
-      { title: "Spam Rate", field: "spam_rate", hozAlign: "center", sorter: "date" },
-      { title: "Unsub Rate", field: "unsub_rate", hozAlign: "center" },
-      { title: "Bounce Rate", field: "bounces_rate", hozAlign: "center" },
-      { title: "Transactions", field: "transactions", hozAlign: "center" },
-      { title: "Ecommerce Conversion Rate", field: "ecomm_conversion_rate", hozAlign: "center" },
-      { title: "Revenue", field: "revenue", hozAlign: "center" },
-      { title: "RPE", field: "rpe", hozAlign: "center" },
+      {
+        title: "Performance",
+        headerHozAlign: "center",
+        columns: [
+          { title: "Emails Sent", field: "emails_sent", hozAlign: "right", sorter: "number", bottomCalc: "sum" },
+          { title: "Open Rate", field: "open_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
+          { title: "Click Rate", field: "click_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
+          { title: "Deliverability Rate", field: "deliverability_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
+          { title: "Spam Rate", field: "spam_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
+          { title: "Unsub Rate", field: "unsub_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
+          { title: "Bounce Rate", field: "bounces_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat }
+        ]
+      },
+      {
+        title: "Conversion",
+        headerHozAlign: "center",
+        columns: [
+          {
+            title: "Transactions", field: "transactions", hozAlign: "right", bottomCalc: "sum"
+          },
+          { title: "Ecommerce Conversion Rate", field: "ecomm_conversion_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat},
+          { title: "Revenue", field: "revenue", hozAlign: "right", formatter:"money", formatterParams: {
+              symbol: "$"
+            }, bottomCalc: "sum", bottomCalcFormatter:"money", bottomCalcFormatterParams: {
+              symbol: "$"
+            }  },
+          { title: "RPE", field: "rpe", hozAlign: "right", bottomCalc: "avg", formatter:"money", formatterParams: {
+              symbol: "$"
+            },bottomCalcFormatter:"money", bottomCalcFormatterParams: {
+              symbol: "$"
+            } }
+        ]
+      }
     ],
+    data: tableData
   });
-  table.setData(tableData)
+
+
 </script>

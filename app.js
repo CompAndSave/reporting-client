@@ -26,6 +26,9 @@ app.use(helmet());
 app.get('/scripts/foundation.min.js', function(req, res) {
   res.sendFile(__dirname + '/node_modules/foundation-sites/dist/js/foundation.min.js');
 });
+app.get('/scripts/foundation.min.js.map', function(req, res) {
+  res.sendFile(__dirname + '/node_modules/foundation-sites/dist/js/foundation.min.js.map');
+});
 app.get('/scripts/tabulator.min.js', function(req, res) {
   res.sendFile(__dirname + '/node_modules/tabulator-tables/dist/js/tabulator.min.js');
 });
@@ -43,7 +46,7 @@ app.use(
       path.join(__dirname, 'node_modules/tabulator-tables/src')
     ],
     prefix: '/style',
-    debug: true,
+    debug: false,
     outputStyle: 'extended',
   })
 );
