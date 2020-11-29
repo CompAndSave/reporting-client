@@ -25,9 +25,26 @@ var server = http.createServer(app);
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
+server.listen(port, syncing);
 server.on('error', onError);
 server.on('listening', onListening);
+
+/**
+ * Start browser-sync and listen to changes
+ */
+
+function syncing(){
+  console.log('Demo server available on http://localhost:' + port);
+  const browserSync = require('browser-sync');
+  browserSync({
+    files: ['public/**/*.{html,js,css}', 'views/ejs/**/*.ejs', 'views/hbs/**/*.hbs', 'scss/**/*.scss'],
+    online: false,
+    open: false,
+    port: port+10,
+    proxy: 'localhost:' + port,
+    ui: false
+  });
+}
 
 /**
  * Normalize a port into a number, string, or false.

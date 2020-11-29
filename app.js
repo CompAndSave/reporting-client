@@ -1,5 +1,7 @@
 var createError = require('http-errors');
 var express = require('express');
+var exphbs = require('express-handlebars');
+var hbsHelpers = require('./lib/hbs-helpers');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -12,14 +14,53 @@ require('./initialize');
 const serverConfig = require('./server-config');
 
 var indexRouter = require('./routes/index');
+var annualReportRouter = require('./routes/annual');
 
 var app = express();
 
 const helmet = require('helmet');
 app.use(helmet());
 
+
+//Get Node Modules JS Files
+app.get('/scripts/foundation.min.js', function(req, res) {
+  res.sendFile(__dirname + '/node_modules/foundation-sites/dist/js/foundation.min.js');
+});
+app.get('/scripts/tabulator.min.js', function(req, res) {
+  res.sendFile(__dirname + '/node_modules/tabulator-tables/dist/js/tabulator.min.js');
+});
+
+//Stylesheet processing with sass
+require('sass');
+var sassMiddleware = require('node-sass-middleware');
+app.use(
+  sassMiddleware({
+    src: path.join(__dirname, 'scss'),
+    dest: path.join(__dirname + '/public/style'),
+    includePaths: [
+      path.join(__dirname, 'node_modules/foundation-sites'),
+      path.join(__dirname, 'node_modules/@fortawesome/fontawesome-free'),
+      path.join(__dirname, 'node_modules/tabulator-tables/src')
+    ],
+    prefix: '/style',
+    debug: true,
+    outputStyle: 'extended',
+  })
+);
+
 // view engine setup
+var hbs = exphbs.create({
+  defaultLayout: "index",
+  helpers: hbsHelpers,
+  partialsDir: [
+    path.join(__dirname, 'views/layout/'),
+    path.join(__dirname, 'views/partials/'),
+    path.join(__dirname, 'views/content/')
+  ],
+  extname: 'hbs'
+});
 app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
 
 // app.use(logger('dev'));
@@ -40,6 +81,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+app.use('/campaign-report', annualReportRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -88,7 +131,7 @@ app.use(function(err, req, res, next) {
     resData.meta_title = 'Script Error';
     resData.body_content = 'error';
   }
-  res.render('error', resData);
+  res.render('layout/defaultView', resData);
 });
 
 module.exports = app;

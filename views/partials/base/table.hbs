@@ -1,0 +1,20 @@
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      {{#each tabledata.[0]}}
+          <th>{{replace @key '_' ' '}}</th>
+      {{/each}}
+    </tr>
+  </thead>
+  <tbody>
+    {{#each tabledata as |element|}}
+      <tr>
+        <td>{{ math @index '+' 1 }}</td>
+        {{#each element}}
+          <td>{{{this}}}</td>
+        {{/each}}
+      </tr>
+    {{/each}}
+  </tbody>
+</table>

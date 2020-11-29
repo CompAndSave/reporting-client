@@ -1,0 +1,61 @@
+[
+    {
+        "_id": "2020JAN1-SKUMOST",
+        "year": "2020",
+        "month": "01",
+        "quarter": "q1",
+        "title": "January Promo 1",
+        "name" : "SKU - Most Active",
+        "type" : "variate",
+        "combinations" : [
+            {
+                "version": "a",
+                "emails_sent": 12345,
+                "open_rate": 11.49,
+                "click_rate" : 0.91,
+                "deliverability_rate" : 99.05,
+                "spam_rate": 0.02,
+                "unsub_rate": 0.37,
+                "bounces_rate": 0.95,
+                "transactions": 563,
+                "ecomm_conversion_rate": 22.69,
+                "revenue": 22462.62,
+                "rpe": 0.12
+            },
+            {
+                "version": "b",
+                "emails_sent": 12345,
+                "open_rate": 11.49,
+                "click_rate" : 0.91,
+                "deliverability_rate" : 99.05,
+                "spam_rate": 0.02,
+                "unsub_rate": 0.37,
+                "bounces_rate": 0.95,
+                "transactions": 563,
+                "ecomm_conversion_rate": 22.69,
+                "revenue": 22462.62,
+                "rpe": 0.12
+            }
+        ]
+    },
+    {
+        "_id": "2020JAN1-SKUMOST",
+        "year": "2020",
+        "month": "01",
+        "quarter": "q1",
+        "title": "January Promo 1",
+        "name" : "SKU - Less Active",
+        "type" : "regular",
+        "emails_sent": 193131,
+        "open_rate": 11.49,
+        "click_rate" : 0.91,
+        "deliverability_rate" : 99.05,
+        "spam_rate": 0.02,
+        "unsub_rate": 0.37,
+        "bounces_rate": 0.95,
+        "transactions": 563,
+        "ecomm_conversion_rate": 22.69,
+        "revenue": 22462.62,
+        "rpe": 0.12
+    }
+]

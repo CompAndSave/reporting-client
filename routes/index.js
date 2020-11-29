@@ -4,9 +4,9 @@ const asyncHandler = require('express-async-handler');
 
 // GET /
 router.get('/', asyncHandler(async (req, res, next) => {
-  res.render('index', {
-    meta_title: "Index Page",
-    body: "Hello World!"
+  res.render('layout/defaultView', {
+    meta_title: 'Welcome',
+    body_content: 'index'
   });
 }));
 

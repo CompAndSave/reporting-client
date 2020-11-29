@@ -1,0 +1,18 @@
+<div class="grid-container full">
+  <div class="main-wrapper">
+    {{> components/header }}
+    <div class="nav-wrapper">
+      {{> components/nav }}
+    </div>
+    <section class="body-content">
+      <div class="main">
+        <h1 class="page-title">
+          {{#if meta_title }}
+            {{ meta_title }}
+          {{/if}}
+        </h1>
+        {{> (lookup . 'body_content') }}
+      </div>
+    </section>
+  </div>
+</div>

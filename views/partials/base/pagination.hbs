@@ -1,0 +1,63 @@
+<ul class="pagination" role="navigation" aria-label="Pagination">
+
+  {{! Previous Page}}
+  {{#if table.pagination.prev_url}}
+    <li class="pagination-previous">
+      <a href="{{ table.pagination.prev_url }}" aria-label="Previous page"><i class="las la-chevron-left"></i></a>
+    </li>
+  {{/if}}
+
+  {{! Go to First Page }}
+  {{#if table.pagination.first_url}}
+    <li>
+      <a href="{{ table.pagination.first_url }}" aria-label="First Page">1</a>
+    </li>
+  {{/if}}
+
+  {{! ... between first page to urls }}
+  {{#if table.pagination.dots_before_urls}}
+    <li class="ellipsis-wrapper">
+      <span class="ellipsis">...</span>
+    </li>
+  {{/if}}
+
+  {{! Pages before current }}
+  {{#if table.pagination.urls_before_current}}
+    {{#each table.pagination.urls_before_current as |page|}}
+      <li><a href="{{ page.url }}" aria-label="Page {{page.index}}">{{page.index}}</a></li>
+    {{/each}}
+  {{/if}}
+
+  {{! Current page }}
+  {{#if table.pagination.current_url}}
+    <li class="current"><a href="{{ table.pagination.current_url.url }}" aria-label="Page {{table.pagination.current_url.index}}">{{table.pagination.current_url.index}}</a></li>
+  {{/if}}
+
+  {{! Pages after current }}
+  {{#if table.pagination.urls_after_current}}
+    {{#each table.pagination.urls_after_current as |page|}}
+      <li><a href="{{ page.url }}" aria-label="Page {{page.index}}">{{page.index}}</a></li>
+    {{/each}}
+  {{/if}}
+
+  {{! ... between urls to last page }}
+  {{#if table.pagination.dots_after_urls}}
+    <li class="ellipsis-wrapper">
+      <span class="ellipsis">...</span>
+    </li>
+  {{/if}}
+
+  {{! Go to Last Page }}
+  {{#if table.pagination.last_url}}
+    <li>
+      <a href="{{ table.pagination.last_url }} " aria-label="Last page">{{ table.pagination.totalNumOfPage }}</a>
+    </li>
+  {{/if}}
+
+  {{! Go to Next Page }}
+  {{#if table.pagination.next_url}}
+    <li>
+      <a href="{{ table.pagination.next_url }} " aria-label="Next page"><i class="las la-chevron-right"></i></a>
+    </li>
+  {{/if}}
+</ul>

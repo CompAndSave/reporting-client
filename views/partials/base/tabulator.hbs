@@ -1,0 +1,26 @@
+<div id="example-table">
+
+</div>
+
+<script>
+  var tableData = JSON.parse('{{{static_data}}}')
+  console.log(tableData)
+  var table = new Tabulator("#example-table", {
+    layout:"fitDataTable",
+    columns: [
+      { title: "Name", field: "name" },
+      { title: "Emails Sent", field: "emails_sent", hozAlign: "right", sorter: "number" },
+      { title: "Open Rate", field: "open_rate" },
+      { title: "Click Rate", field: "click_rate", hozAlign: "center" },
+      { title: "Deliverability Rate", field: "deliverability_rate" },
+      { title: "Spam Rate", field: "spam_rate", hozAlign: "center", sorter: "date" },
+      { title: "Unsub Rate", field: "unsub_rate", hozAlign: "center" },
+      { title: "Bounce Rate", field: "bounces_rate", hozAlign: "center" },
+      { title: "Transactions", field: "transactions", hozAlign: "center" },
+      { title: "Ecommerce Conversion Rate", field: "ecomm_conversion_rate", hozAlign: "center" },
+      { title: "Revenue", field: "revenue", hozAlign: "center" },
+      { title: "RPE", field: "rpe", hozAlign: "center" },
+    ],
+  });
+  table.setData(tableData)
+</script>
