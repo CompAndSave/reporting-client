@@ -14,7 +14,7 @@ require('./initialize');
 const serverConfig = require('./server-config');
 
 var indexRouter = require('./routes/index');
-var annualReportRouter = require('./routes/annual');
+var monthlySummaryReportRouter = require('./routes/monthlySummary');
 
 var app = express();
 
@@ -84,7 +84,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/campaign-report', annualReportRouter);
+app.use('/campaign-report', monthlySummaryReportRouter);
 
 
 // catch 404 and forward to error handler
@@ -128,7 +128,7 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   if(err.status == 404) {
-    resData.meta_title = '404 - Not Found';
+    resData.meta_title = '';
     resData.body_content = '404';
   } else {
     resData.meta_title = 'Script Error';
