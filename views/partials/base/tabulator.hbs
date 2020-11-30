@@ -4,18 +4,29 @@
   var percentageFormat = function(cell, formatterParams, onRendered){
     return cell.getValue() + "%"
   };
+        
   var tableData = JSON.parse('{{{data}}}')
+  var dataType = '{{{type}}}'
+  
+  if(dataType == 'monthly' || dataType == 'quarterly'){
+    var result = tableData.map(function(el) {
+      var column = Object.assign({}, el);
+      column.name = months[el.month];
+      return column;
+    })
+  }
+  
   var table = new Tabulator("#example-table", {
     layout: "fitColumns",
     resizableColumns:true,
     columns: [
-      { title: "#", formatter:"rownum", frozen: true,  width:40, headerSort:false },
+      { title: "#", formatter:"rownum", frozen: true,  width:60, headerSort:false },
       { title: "Name", field: "name" },
       {
         title: "Performance",
         headerHozAlign: "center",
         columns: [
-          { title: "Emails Sent", field: "emails_sent", hozAlign: "right", sorter: "number", bottomCalc: "sum" },
+          { title: "Emails Sent", field: "emails_sent", hozAlign: "right", formatter:"money", formatterParams: {precision: 0}, bottomCalcFormatter: "money", bottomCalcFormatterParams: {precision: 0}, sorter: "number", bottomCalc: "sum" },
           { title: "Open Rate", field: "open_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
           { title: "Click Rate", field: "click_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
           { title: "Deliverability Rate", field: "deliverability_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat },
@@ -29,7 +40,7 @@
         headerHozAlign: "center",
         columns: [
           {
-            title: "Transactions", field: "transactions", hozAlign: "right", bottomCalc: "sum"
+            title: "Transactions", field: "transaction", formatter:"money", formatterParams: {precision: 0}, hozAlign: "right", bottomCalc: "sum"
           },
           { title: "Ecommerce Conversion Rate", field: "ecomm_conversion_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat},
           { title: "Revenue", field: "revenue", hozAlign: "right", formatter:"money", formatterParams: {

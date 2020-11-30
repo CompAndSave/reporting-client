@@ -6,31 +6,39 @@
     <div class="menu">
       <ul class="vertical menu" data-accordion-menu>
         <li>
-          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-table"></i></span> Monthly Summary</a>
-          <ul class="menu vertical nested">
-            <li><a href="#" class="menu-item-nested">2020</a></li>
-            <li><a href="#" class="menu-item-nested">2021</a></li>
+          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-coins"></i></span> Annual Summary</a>
+          <ul class="menu vertical nested is-active">
+            <li>
+              <a href="javascript:void(0)" class="menu-item">2020</a>
+              <ul class="menu vertical nested is-active">
+                <li><a href="/yearly-report/2020/?groupBy=quarterly" class="menu-item-nested">Quarterly Report</a></li>
+                <li><a href="/yearly-report/2020/?groupBy=monthly" class="menu-item-nested">Month-to-Month Report</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
         <li>
-          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="far fa-calendar-alt"></i></span> Quarterly Summary</a>
+          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-coins"></i></span> Quarterly Summary</a>
           <ul class="menu vertical nested">
             <li>
               <a href="javascript:void(0)" class="menu-item">2020</a>
               <ul class="menu vertical nested">
-                <li><a href="#" class="menu-item-nested">Q1</a></li>
-                <li><a href="#" class="menu-item-nested">Q2</a></li>
-                <li><a href="#" class="menu-item-nested">Q3</a></li>
-                <li><a href="#" class="menu-item-nested">Q4</a></li>
+                {{#repeatUntil 0 5}}
+                <li><a href="/quarterly-report/2020/{{this}}/?groupBy=monthly" class="menu-item-nested">{{numToQuarter this}} Report</a></li>
+                {{/repeatUntil}}
               </ul>
             </li>
+          </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-table"></i></span> Monthly Summary</a>
+          <ul class="menu vertical nested">
             <li>
-              <a href="javascript:void(0)" class="menu-item">2021</a>
+              <a href="javascript:void(0)" class="menu-item">2020</a>
               <ul class="menu vertical nested">
-                <li><a href="#" class="menu-item-nested">Q1</a></li>
-                <li><a href="#" class="menu-item-nested">Q2</a></li>
-                <li><a href="#" class="menu-item-nested">Q3</a></li>
-                <li><a href="#" class="menu-item-nested">Q4</a></li>
+                {{#repeatUntil 0 13}}
+                <li><a href="/monthly-report/2020/{{this}}/?groupBy=campaign" class="menu-item-nested">{{numToMonth this false}} Report</a></li>
+                {{/repeatUntil}}
               </ul>
             </li>
           </ul>
@@ -38,15 +46,30 @@
         <li>
           <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-columns"></i></span> Campaign Breakdown</a>
           <ul class="menu vertical nested">
-            <li><a href="#" class="menu-item-nested">2020</a></li>
-            <li><a href="#" class="menu-item-nested">2021</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-users"></i></span> Segments Breakdown</a>
-          <ul class="menu vertical nested">
-            <li><a href="#" class="menu-item-nested">2020</a></li>
-            <li><a href="#" class="menu-item-nested">2021</a></li>
+              {{#repeatUntil 0 11}}
+              <li>
+              <a href="javascript:void(0)" class="menu-item">{{numToMonth this false}}</a>
+              <ul class="menu vertical nested">
+                <li><a href="/campaign-report/2020/{{this}}/1?groupBy=segment" class="menu-item-nested">{{numToMonth this true}} Promo 1</a></li>
+                  <li><a href="/campaign-report/2020/{{this}}/2?groupBy=segment" class="menu-item-nested">{{numToMonth this true}} Promo 2</a></li>
+              </ul>
+              </li>
+              {{/repeatUntil}}
+              <li>
+                <a href="javascript:void(0)" class="menu-item">{{numToMonth 11 false}}</a>
+                <ul class="menu vertical nested">
+                  <li><a href="/campaign-report/2020/11/1?groupBy=segment" class="menu-item-nested">{{numToMonth 11 true}} Promo 1</a></li>
+                    <li><a href="/campaign-report/2020/11/2?groupBy=segment" class="menu-item-nested">{{numToMonth 11 true}} Promo 2</a></li>
+                    <li><a href="/campaign-report/2020/11/2?groupBy=segment" class="menu-item-nested">{{numToMonth 11 true}} Promo 3</a></li>
+                </ul>
+              </li>
+              <li>
+                <a href="javascript:void(0)" class="menu-item">{{numToMonth 12 false}}</a>
+                <ul class="menu vertical nested">
+                  <li><a href="/campaign-report/2020/12/1?groupBy=segment" class="menu-item-nested">{{numToMonth 12 true}} Promo 1</a></li>
+                    <li><a href="/campaign-report/2020/12/2?groupBy=segment" class="menu-item-nested">{{numToMonth 12 true}} Promo 2</a></li>
+                </ul>
+              </li>
           </ul>
         </li>
       </ul>

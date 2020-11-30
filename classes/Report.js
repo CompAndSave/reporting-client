@@ -5,8 +5,11 @@ class Report {
 
   static async getCampaignData(bodyRequest) {
     const apiUrl = process.env.REPORT_API_URL+'campaign-report'
-    let conn = axios.get(apiUrl, bodyRequest);
-    return Promise.resolve(await conn.then((res)=>res.data).catch((err)=>console.log(err)));
+    let error;
+    let result = await axios.get(apiUrl, { data: bodyRequest }).catch(err => error = err);
+
+    if (error) { return Promise.reject(error); }
+    return Promise.resolve(result.data);
   }
 }
 

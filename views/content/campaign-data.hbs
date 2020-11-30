@@ -1,5 +1,9 @@
 <div class="grid-x">
   <div class="cell">
-    {{> base/tabulator}}
+    {{#if data }}
+      {{> base/tabulator }}
+    {{else}}
+      <p>Data is not ready</p>
+    {{/if}}
   </div>
 </div>

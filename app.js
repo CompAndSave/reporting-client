@@ -14,7 +14,11 @@ require('./initialize');
 const serverConfig = require('./server-config');
 
 var indexRouter = require('./routes/index');
-var monthlySummaryReportRouter = require('./routes/monthlySummary');
+var annualSummaryReportRouter = require('./routes/yearlyReport');
+var quarterlySummaryReportRouter = require('./routes/quarterlyReport');
+var monthlySummaryReportRouter = require('./routes/monthlyReport');
+var campaignSummaryReportRouter = require('./routes/campaignReport');
+
 
 var app = express();
 
@@ -84,7 +88,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/campaign-report', monthlySummaryReportRouter);
+app.use('/yearly-report', annualSummaryReportRouter);
+app.use('/quarterly-report', quarterlySummaryReportRouter);
+app.use('/monthly-report', monthlySummaryReportRouter);
+app.use('/campaign-report', campaignSummaryReportRouter);
 
 
 // catch 404 and forward to error handler
