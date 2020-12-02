@@ -7,14 +7,7 @@
         
   var tableData = JSON.parse('{{{data}}}')
   var dataType = '{{{type}}}'
-  
-  if(dataType == 'monthly' || dataType == 'quarterly'){
-    var result = tableData.map(function(el) {
-      var column = Object.assign({}, el);
-      column.name = months[el.month];
-      return column;
-    })
-  }
+  console.log(dataType);
   
   var table = new Tabulator("#{{{tableId}}}", {
     layout: "fitColumns",

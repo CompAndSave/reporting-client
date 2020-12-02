@@ -1,0 +1,38 @@
+.ytd-card {
+  border-radius: $global-radius;
+  max-width: rem-calc(600);
+  .card-divider {
+    background: get-color(secondary);
+    padding: 0;
+  }
+  .icon {
+    font-size: rem-calc(24);
+    opacity: 0.75;
+  }
+  .title {
+    font-family: $secondary-font-family;
+    color: $white;
+    font-weight: 700;
+    line-height: 1;
+    font-size: rem-calc(30);
+    display: inline-block;
+    padding: 1.5rem 0 0.75rem;
+  }
+  .card-section {
+    .metric {
+      border-right: 1px solid darken($light-gray, 10%);
+    }
+    .value {
+      font-size: rem-calc(26);
+      font-weight: 700;
+      line-height: 1;
+      display: block;
+    }
+    .tag {
+      font-size: rem-calc(12);
+      color: $medium-gray;
+      line-height: 1;
+      letter-spacing: rem-calc(0.75);
+    }
+  }
+}

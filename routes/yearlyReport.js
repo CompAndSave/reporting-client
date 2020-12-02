@@ -27,6 +27,7 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
     }
   }
 
+
   data = await Report.getCampaignData(reqBody).catch(err => {
     error=true;
     return err;
@@ -79,7 +80,9 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
     resData = {
       meta_title: 'Campaign Report',
       body_content: 'campaign-data',
-      data: (tableData.length > 0) ? JSON.stringify(tableData) : 0
+      data: (tableData.length > 0) ? JSON.stringify(tableData) : 0,
+      type: req.query.section ? req.query.section : '',
+      tableId: groupBy+'ReportTable'
     }
   } 
   res.render('layout/defaultView', resData);

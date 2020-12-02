@@ -20,7 +20,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
   if(data) {
     resData = {
-      meta_title: 'Campaign Performance YTD',
+      meta_title: '',
       body_content: 'index',
       data: data.result[0]
     }

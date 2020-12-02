@@ -70,17 +70,17 @@ $global-font-size: 100%;
 $global-width: rem-calc(1200);
 $global-lineheight: 1.5;
 $foundation-palette: (
-  primary: #3949AB,
-  secondary: #039BE5,
-  success: #43A047,
-  warning: #FDD835,
-  alert: #e53935,
+  primary: #283593,
+  secondary: #1976d2,
+  success:#388e3c,
+  warning: #ffc107,
+  alert: #c62828,
 );
 $light-gray: #E0E0E0;
-$medium-gray: #757575;
+$medium-gray: #616161;
 $dark-gray: #424242;
 $black: #212121;
-$white: #F5F5F5;
+$white: #fafafa;
 $body-background: $white;
 $body-font-color: $dark-gray;
 $body-font-family: 'Lato', Arial, sans-serif;
@@ -92,7 +92,7 @@ $global-position: 1rem;
 $global-weight-light: 300;
 $global-weight-normal: 400;
 $global-weight-bold: 700;
-$global-radius: 0;
+$global-radius: rem-calc(5);
 $global-menu-padding: 0.7rem 1rem;
 $global-menu-nested-margin: 1rem;
 $global-text-direction: ltr;
@@ -102,6 +102,7 @@ $global-button-cursor: auto;
 $global-color-pick-contrast-tolerance: 0;
 $print-transparent-backgrounds: true;
 $print-hrefs: true;
+$global-box-shadow: 0 3px 6px rgba($dark-gray,0.16), 0 3px 6px rgba($dark-gray,0.23);
 
 @include add-foundation-colors;
 
@@ -352,8 +353,8 @@ $callout-link-tint: 30%;
 $card-background: $white;
 $card-font-color: $body-font-color;
 $card-divider-background: $light-gray;
-$card-border: 1px solid $light-gray;
-$card-shadow: none;
+$card-border: 0;
+$card-shadow: $global-box-shadow;
 $card-border-radius: $global-radius;
 $card-padding: $global-padding;
 $card-margin-bottom: $global-margin;
