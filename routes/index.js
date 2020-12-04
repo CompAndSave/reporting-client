@@ -5,12 +5,14 @@ const Report = require('../classes/Report');
 
 // GET /
 router.get('/', asyncHandler(async (req, res, next) => {
+  let accessToken = req.cookies.AWSCognition_accessToken;
+  if (!accessToken) { return res.redirect("/auth"); }
 
   let resData = {}, data="";
 
   let reqBody = { groupBy: "yearly" }
 
-  data = await Report.getCampaignData(reqBody).catch(err => {
+  data = await Report.getCampaignData(reqBody, accessToken).catch(err => {
     resData = {
       meta_title: 'Script Error',
       body_content: 'error',

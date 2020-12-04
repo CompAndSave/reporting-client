@@ -18,6 +18,8 @@ var annualSummaryReportRouter = require('./routes/yearlyReport');
 var quarterlySummaryReportRouter = require('./routes/quarterlyReport');
 var monthlySummaryReportRouter = require('./routes/monthlyReport');
 var campaignSummaryReportRouter = require('./routes/campaignReport');
+var authRouter = require('./routes/auth');
+var testRouter = require('./routes/test');
 
 
 var app = express();
@@ -92,6 +94,8 @@ app.use('/yearly-report', annualSummaryReportRouter);
 app.use('/quarterly-report', quarterlySummaryReportRouter);
 app.use('/monthly-report', monthlySummaryReportRouter);
 app.use('/campaign-report', campaignSummaryReportRouter);
+app.use('/auth', authRouter);
+app.use('/test', testRouter);
 
 
 // catch 404 and forward to error handler

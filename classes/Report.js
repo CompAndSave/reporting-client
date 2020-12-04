@@ -3,10 +3,15 @@ const axios = require('axios');
 class Report {
   constructor() {}
 
-  static async getCampaignData(bodyRequest) {
+  static async getCampaignData(bodyRequest, accessToken) {
     const apiUrl = process.env.REPORT_API_URL+'campaign-report'
     let error;
-    let result = await axios.get(apiUrl, { data: bodyRequest }).catch(err => error = err);
+    let result = await axios.get(apiUrl, {
+      data: bodyRequest,
+      headers: {
+        'Authorization': `Bearer ${accessToken}`
+      }
+    }).catch(err => error = err);
 
     if (error) { return Promise.reject(error); }
     return Promise.resolve(result.data);

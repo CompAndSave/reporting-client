@@ -1,0 +1,10 @@
+{{#if redirect_url}}
+  <a href="{{redirect_url}}">Click to login for OAuth at AWS Cognito via Implicit Grant</a><BR>
+  <a href="{{auth_code_redirect_url}}">Click to login for OAuth at AWS Cognito via Authorization Code Grant</a>
+{{else}}
+  <script src="/js/lib/ajaxCall.js"></script>
+  <script src="/js/feature/auth.js"></script>
+  <script>
+    passToken(window.location.hash);
+  </script>
+{{/if}}

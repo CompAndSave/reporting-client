@@ -1,12 +1,13 @@
-const { removeEmptyKey } = require('cas-common-lib/lib/algo');
 const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
-const { registerHelper } = require('hbs');
 const Report = require('../classes/Report');
 
 // GET /
 router.get('/:year/:month/:promoNum?', asyncHandler(async (req, res, next) => {
+  let accessToken = req.cookies.AWSCognition_accessToken;
+  if (!accessToken) { return res.redirect("/auth"); }
+
   let resData = {}, data, tableData, reqBody= {}, error=false, groupBy;
   let quarters = ["Q1", "Q2", "Q3", "Q4"];
   let months = [ "January", "February", "March", "April", "May", "June", 

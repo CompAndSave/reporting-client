@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
+    "amazon-cognito-identity-js": "^4.5.5",
     "axios": "^0.19.2",
     "cas-common-lib": "^0.5.0",
     "cookie-parser": "^1.4.5",
@@ -25,6 +26,7 @@
     "moment-timezone": "^0.5.32",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
+    "qs": "^6.9.4",
     "tabulator-tables": "^4.9.1",
     "winston": "^3.3.3"
   },
