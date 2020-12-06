@@ -40,7 +40,7 @@
         headerHozAlign: "center",
         columns: [
           {
-            title: "Transactions", field: "transaction", formatter:"money", formatterParams: {precision: 0}, hozAlign: "right", bottomCalc: "sum"
+            title: "Transactions", field: "transaction", formatter:"money",  width:75, formatterParams: {precision: 0}, hozAlign: "right", bottomCalc: "sum"
           },
           { title: "Ecommerce Conversion Rate", field: "ecomm_conversion_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat},
           { title: "Revenue", field: "revenue", hozAlign: "right", formatter:"money", formatterParams: {

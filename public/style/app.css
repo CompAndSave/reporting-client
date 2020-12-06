@@ -515,7 +515,7 @@ h6, .h6 {
     color: #616161; }
 
 h1, .h1 {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   line-height: 1.4;
   margin-top: 0;
   margin-bottom: 0.5rem; }
@@ -552,7 +552,7 @@ h6, .h6 {
 
 @media print, screen and (min-width: 40em) {
   h1, .h1 {
-    font-size: 3rem; }
+    font-size: 2.5rem; }
   h2, .h2 {
     font-size: 2rem; }
   h3, .h3 {
@@ -4180,7 +4180,15 @@ ol.list-upper-roman {
 
 .body-content {
   margin-top: 3rem;
-  padding-left: 18.75rem; }
+  padding-left: 16.5625rem;
+  padding-right: 1.875rem; }
+
+.page-title {
+  text-transform: capitalize; }
+
+.login-wrapper {
+  background: #E0E0E0;
+  padding: 3rem 0; }
 
 .ytd-card {
   border-radius: 0.3125rem;
@@ -4218,6 +4226,8 @@ ol.list-upper-roman {
 .logo {
   display: block;
   line-height: 1; }
+  .logo.gray {
+    filter: invert(1) opacity(0.75); }
 
 .menu-wrapper .menu-item, .menu-wrapper .menu-item + .nested .menu-item-nested, .menu-wrapper .menu-item + .nested .menu-item {
   color: #424242;

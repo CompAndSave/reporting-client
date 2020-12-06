@@ -1,10 +1,21 @@
 {{#if redirect_url}}
-  <a href="{{redirect_url}}">Click to login for OAuth at AWS Cognito via Implicit Grant</a><BR>
-  <a href="{{auth_code_redirect_url}}">Click to login for OAuth at AWS Cognito via Authorization Code Grant</a>
+<div class="login-wrapper">
+  <h1>Login</h1>
+  <p>Click on either of the button below to login via AWS Cognito and get your oauth token.</p>
+  <div class="grid-x grid-margin-x align-center">
+    <div class="cell shrink">
+      <a href="{{redirect_url}}" class="button hollow">GET 1-HOUR ACCESS GRANT<br><small>Implicit Grant</small></a>
+    </div>
+    <div class="cell shrink">
+      <a href="{{auth_code_redirect_url}}" class="button hollow">GET 30-DAYS ACCESS GRANT<br><small>Auth Code
+          Grant</small></a>
+    </div>
+  </div>
+</div>
 {{else}}
-  <script src="/js/lib/ajaxCall.js"></script>
-  <script src="/js/feature/auth.js"></script>
-  <script>
-    passToken(window.location.hash);
-  </script>
+<script src="/js/lib/ajaxCall.js"></script>
+<script src="/js/feature/auth.js"></script>
+<script>
+  passToken(window.location.hash);
+</script>
 {{/if}}

@@ -36,7 +36,7 @@ router.get('/:year/:month/:promoNum?', asyncHandler(async (req, res, next) => {
     }
   }
 
-  data = await Report.getCampaignData(reqBody).catch(err => {
+  data = await Report.getCampaignData(reqBody, accessToken).catch(err => {
     error=true;
     return err;
   });
@@ -88,7 +88,8 @@ router.get('/:year/:month/:promoNum?', asyncHandler(async (req, res, next) => {
     resData = {
       meta_title: 'Campaign Report',
       body_content: 'campaign-data',
-      data: (tableData.length > 0) ? JSON.stringify(tableData) : 0
+      data: (tableData.length > 0) ? JSON.stringify(tableData) : 0,
+      tableId: groupBy+'ReportTable'
     }
   } 
   res.render('layout/defaultView', resData);

@@ -21,7 +21,6 @@ var campaignSummaryReportRouter = require('./routes/campaignReport');
 var authRouter = require('./routes/auth');
 var testRouter = require('./routes/test');
 
-
 var app = express();
 
 const helmet = require('helmet');

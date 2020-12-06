@@ -368,6 +368,8 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis; }
+    .tabulator-row .tabulator-cell i {
+      margin-right: 0.3125rem; }
     .tabulator-row .tabulator-cell.tabulator-editing {
       border: 1px solid #283593;
       outline: none;
@@ -406,8 +408,8 @@
       margin-top: -9px;
       margin-right: 5px;
       border-bottom-left-radius: 1px;
-      border-left: 2px solid #eeeeee;
-      border-bottom: 2px solid #eeeeee; }
+      border-left: 2px solid #bbbbbb;
+      border-bottom: 2px solid #bbbbbb; }
     .tabulator-row .tabulator-cell .tabulator-data-tree-control {
       display: inline-flex;
       justify-content: center;
@@ -749,3 +751,6 @@ body.tabulator-print-fullscreen-hide > *:not(.tabulator-print-fullscreen) {
         height: 1px;
         width: 7px;
         background: #424242; }
+
+.tabulator-table .tabulator-tree-level-1 + .tabulator-tree-level-0 {
+  border-top: 2px solid #c7c7c7; }

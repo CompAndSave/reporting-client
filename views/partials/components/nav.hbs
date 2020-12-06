@@ -4,42 +4,20 @@
       <span class="title">MENU</span>
     </div>
     <div class="menu">
-      <ul class="vertical menu" data-accordion-menu>
-        <li>
-          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-coins"></i></span> Annual Summary</a>
-          <ul class="menu vertical nested is-active">
-            <li>
-              <a href="javascript:void(0)" class="menu-item">2020</a>
-              <ul class="menu vertical nested is-active">
-                <li><a href="/yearly-report/2020/?groupBy=quarterly" class="menu-item-nested">Quarterly Report</a></li>
-                <li><a href="/yearly-report/2020/?groupBy=monthly" class="menu-item-nested">Month-to-Month Report</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
+      <ul class="vertical menu" data-accordion-menu data-submenu-toggle>
         <li>
           <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-coins"></i></span> Quarterly Summary</a>
-          <ul class="menu vertical nested">
+          <ul class="menu vertical nested is-active">
             <li>
-              <a href="javascript:void(0)" class="menu-item">2020</a>
-              <ul class="menu vertical nested">
-                {{#repeatUntil 0 5}}
-                <li><a href="/quarterly-report/2020/{{this}}/?groupBy=monthly" class="menu-item-nested">{{numToQuarter this}} Report</a></li>
-                {{/repeatUntil}}
-              </ul>
+              <a href="/quarterly-report/2020" class="menu-item">2020</a>
             </li>
           </ul>
         </li>
         <li>
           <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-table"></i></span> Monthly Summary</a>
-          <ul class="menu vertical nested">
+          <ul class="menu vertical nested is-active">
             <li>
-              <a href="javascript:void(0)" class="menu-item">2020</a>
-              <ul class="menu vertical nested">
-                {{#repeatUntil 0 13}}
-                <li><a href="/monthly-report/2020/{{this}}/?groupBy=campaign" class="menu-item-nested">{{numToMonth this false}} Report</a></li>
-                {{/repeatUntil}}
-              </ul>
+              <a href="/monthly-report/2020" class="menu-item">2020</a>
             </li>
           </ul>
         </li>

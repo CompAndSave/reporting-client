@@ -707,6 +707,9 @@ $footerActiveColor:$table-foot-row-hover !default; //footer bottom active text c
 		white-space:nowrap;
 		overflow:hidden;
 		text-overflow:ellipsis;
+		i {
+			margin-right: rem-calc(5);
+		}
 
 		&.tabulator-editing{
 			border:1px solid  $editBoxColor;
@@ -774,8 +777,8 @@ $footerActiveColor:$table-foot-row-hover !default; //footer bottom active text c
 
 			border-bottom-left-radius:1px;
 
-			border-left:2px solid $rowBorderColor;
-			border-bottom:2px solid $rowBorderColor;
+			border-left:2px solid darken($rowBorderColor, 20%);
+			border-bottom:2px solid darken($rowBorderColor, 20%);
 		}
 
 		.tabulator-data-tree-control{
@@ -1364,3 +1367,10 @@ body.tabulator-print-fullscreen-hide>*:not(.tabulator-print-fullscreen){
 	}
 }
 
+.tabulator-table {
+	.tabulator-tree-level-1 {
+		+.tabulator-tree-level-0 {
+			border-top: 2px solid darken($light-gray, 10%);
+		}
+	}
+}

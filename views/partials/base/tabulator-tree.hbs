@@ -7,13 +7,15 @@
         
   var tableData = JSON.parse('{{{data}}}')
   var dataType = '{{{type}}}'
-  console.log(dataType);
   
   var table = new Tabulator("#{{{tableId}}}", {
     layout: "fitColumns",
     resizableColumns:true,
+    dataTree:true,
+    dataTreeChildIndent:16,
+    dataTreeChildField:"summaryData",
+    dataTreeElementColumn:"name",
     columns: [
-      { title: "#", formatter:"rownum", frozen: true,  width:60, headerSort:false },
       { title: "Name", field: "name" },
       {
         title: "Performance",

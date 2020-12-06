@@ -1,7 +1,7 @@
 <div class="grid-x">
   <div class="cell">
     {{#if data }}
-      {{#if (compare type '==' 'quarter') }}
+      {{#if (compare tableType '==' 'tree') }}
         {{> base/tabulator-tree}}
       {{else}}
         {{> base/tabulator tableId = tableId }}

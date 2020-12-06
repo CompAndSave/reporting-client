@@ -4,83 +4,59 @@ const asyncHandler = require('express-async-handler');
 const Report = require('../classes/Report');
 
 // GET /
-router.get('/:year/:quarter?', asyncHandler(async (req, res, next) => {
+router.get('/:year?', asyncHandler(async (req, res, next) => {
   let accessToken = req.cookies.AWSCognition_accessToken;
   if (!accessToken) { return res.redirect("/auth"); }
 
-  let resData = {}, data, tableData, reqBody= {}, error=false, groupBy;
+  let resData = {}, data, tableData, reqBody= {}, groupBy;
   let quarters = ["Q1", "Q2", "Q3", "Q4"];
   let months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];   
 
   if(req.params.year){
-    reqBody.year = parseInt(req.params.year);
+    reqBody.year = year = parseInt(req.params.year);
   }
   if(req.params.quarter){
     reqBody.quarter = parseInt(req.params.quarter);
   }
 
-  if(req.query.groupBy){
-    groupBy = req.query.groupBy;
-    reqBody.groupBy = groupBy;
-    if(groupBy == 'segment'){
-      reqBody.showVariate = req.query.showVariate? req.query.showVariate : 0;
-    }
-  }
+  groupBy = reqBody.groupBy = 'quarterly';
 
-  data = await Report.getCampaignData(reqBody).catch(err => {
-    error=true;
-    return err;
+  data = await Report.getCampaignData(reqBody, accessToken).catch(err => {
+    resData = {
+      meta_title: 'Script Error',
+      body_content: 'error',
+      error: err 
+    }
   });
 
+
   if(data) {
-    if(error){
-      resData = {
-        meta_title: 'Script Error',
-        body_content: 'error',
-        error: data 
-      }
+    tableData=data.result;
+    for(let i=0; i< tableData.length; i++) {
+      tableData[i].name = year + ' ' + quarters[i];
+      childData = await Report.getCampaignData({"year": year, "quarter": i+1, "groupBy": "monthly" }, accessToken).catch(err => {
+        resData = {
+          meta_title: 'Script Error',
+          body_content: 'error',
+          error: err 
+        }
+      });
+      tableData[i].summaryData = childData.result;
     }
-    
-    tableData = data.result;
-
-    if(tableData.length > 0) {
-      if(groupBy == 'monthly'){
-        tableData = data.result.map(function(el) {
-          var column = Object.assign({}, el);
-          column.name = months[el.month-1];
-          return column;
-        })
+    let counter = 0;
+    for(let i=0; i< tableData.length; i++) {
+      for(let x=0; x<tableData[i].summaryData.length; x++){
+        tableData[i].summaryData[x].name=months[counter];
+        counter++;
       }
-
-      if(groupBy == 'quarterly'){
-        tableData = data.result.map(function(el) {
-          var column = Object.assign({}, el);
-          column.name = el.year.toString() + ' ' + quarters[el.quarter-1];
-          return column;
-        })
-      }
-
-      if(groupBy == 'campaign'){
-        tableData = data.result.map(function(el) {
-          var column = Object.assign({}, el);
-          column.name = months[el.month-1]+' Promo '+el.promo_num;
-          return column;
-        })
-      }
-
-      if(groupBy == 'segment') {
-        tableData = data.result.map(function(el) {
-          var column = Object.assign({}, el);
-          column.name = months[el.month-1]+' Promo '+el.promo_num+' - '+el.segment.toUpperCase().replace(/_/g, ' ');
-          return column;
-        })
-      }
-    }
+    } 
     resData = {
-      meta_title: 'Campaign Report',
+      meta_title: 'Quarterly Campaign Report',
       body_content: 'campaign-data',
-      data: (tableData.length > 0) ? JSON.stringify(tableData) : 0
+      data: (tableData.length > 0) ? JSON.stringify(tableData) : 0,
+      tableId: groupBy+'ReportTable',
+      tableType: 'tree'
     }
   } 
   res.render('layout/defaultView', resData);
