@@ -8,6 +8,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
     "amazon-cognito-identity-js": "^4.5.5",
+    "aws-cognito-ops": "^0.1.1",
     "axios": "^0.19.2",
     "cas-common-lib": "^0.5.1",
     "cookie-parser": "^1.4.5",

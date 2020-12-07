@@ -7,11 +7,22 @@
       <a href="{{redirect_url}}" class="button hollow">GET 1-HOUR ACCESS GRANT<br><small>Implicit Grant</small></a>
     </div>
     <div class="cell shrink">
-      <a href="{{auth_code_redirect_url}}" class="button hollow">GET 30-DAYS ACCESS GRANT<br><small>Auth Code
-          Grant</small></a>
+      GET 30-DAYS ACCESS GRANT<br><small>Auth Code Grant</small><br>
+      <input id="username.authCodeGrant" name="username.authCodeGrant" placeholder="Your AWS Cognito user name" size="30">
+      <button class="button" id="btnAuthCodeGrant" name="btnAuthCodeGrant" onclick="getAuthCodeToken()">Go</button>
     </div>
   </div>
 </div>
+<script>
+  function getAuthCodeToken() {
+    let x = document.getElementById("username.authCodeGrant");
+    if (x.value === "") { alert("User name cannot be empty"); }
+    else {
+      document.cookie = `AWSCognito_username=${x.value}; path=/; expires=Mon, 01 Jan 2100 00:00:00 UTC`;
+      window.location.replace("{{{auth_code_redirect_url}}}");
+    }
+  }
+</script>
 {{else}}
 <script src="/js/lib/ajaxCall.js"></script>
 <script src="/js/feature/auth.js"></script>

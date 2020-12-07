@@ -1,11 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const asyncHandler = require('express-async-handler');
+const Cognito = require('aws-cognito-ops');
 const Report = require('../classes/Report');
 
 // GET /
 router.get('/', asyncHandler(async (req, res, next) => {
-  let accessToken = req.cookies.AWSCognition_accessToken;
+  let accessToken = await Cognito.checkToken(req, res);
   if (!accessToken) { return res.redirect("/auth"); }
 
   let resData = {}, data="";

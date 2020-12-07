@@ -2,11 +2,12 @@ const express = require('express');
 const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const { algo } = require('cas-common-lib');
+const Cognito = require('aws-cognito-ops');
 const Report = require('../classes/Report');
 
 // GET /
 router.get('/:year?', asyncHandler(async (req, res, next) => {
-  let accessToken = req.cookies.AWSCognition_accessToken;
+  let accessToken = await Cognito.checkToken(req, res);
   if (!accessToken) { return res.redirect("/auth"); }
 
   let campaignData, error, tableData;
