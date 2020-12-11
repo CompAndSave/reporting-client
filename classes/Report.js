@@ -1,10 +1,11 @@
 const axios = require('axios');
+const REPORT_API_URL = process.env.NODE_ENV === "production" ? process.env.REPORT_API_URL_PROD : process.env.REPORT_API_URL_STG;
 
 class Report {
   constructor() {}
 
   static async getCampaignData(bodyRequest, accessToken) {
-    const apiUrl = process.env.REPORT_API_URL+'campaign-report'
+    const apiUrl = REPORT_API_URL + 'campaign-report'
     let error;
     let result = await axios.get(apiUrl, {
       data: bodyRequest,
