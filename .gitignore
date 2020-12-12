@@ -2,3 +2,5 @@
 .env*
 /logs/*.log
 /dummy/
+package-lock.json
+/.serverless/

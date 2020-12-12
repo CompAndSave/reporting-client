@@ -1,7 +1,5 @@
-const path = require('path');
-const { Log } = require('cas-common-lib');
-const serverConfig = require('./server-config');
 const Cognito = require('aws-cognito-ops');
+const serverConfig = require('./server-config.json');
 
 // Add functions to String prototype
 //
@@ -32,11 +30,3 @@ Cognito.poolData = {
   UserPoolId: process.env.AWS_COGNITO_USERPOOL_ID,
   ClientId: process.env.AWS_COGNITO_NODE_APP_CLIENT_ID
 };
-
-// initialize log file paths and showConsole variable
-//
-Log.initialize(
-  path.join(__dirname, serverConfig.CustomErrorLogPath),
-  undefined,
-  process.env.NODE_ENV !== "production"
-);

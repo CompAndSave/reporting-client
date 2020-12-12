@@ -1,0 +1,12 @@
+service: mc-report-client-serverless
+useDotenv: true
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'stg'}
+  region: ${opt:region, 'us-west-2'}
+
+functions:
+  app:
+    handler: app-serverless.handler

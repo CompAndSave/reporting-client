@@ -3,11 +3,12 @@ const router = express.Router();
 const asyncHandler = require('express-async-handler');
 const Cognito = require('aws-cognito-ops');
 const Report = require('../classes/Report');
+const serverConfig = require('../server-config.json');
 
 // GET /
 router.get('/:year?', asyncHandler(async (req, res, next) => {
   let accessToken = await Cognito.checkToken(req, res);
-  if (!accessToken) { return res.redirect("/auth"); }
+  if (!accessToken) { return res.redirect(`${serverConfig.ContextPath}/auth`); }
 
   let resData = {}, data, tableData, reqBody= {}, groupBy;
   let quarters = ["Q1", "Q2", "Q3", "Q4"];
@@ -60,7 +61,7 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
       tableType: 'tree'
     }
   } 
-  res.render('layout/defaultView', resData);
+  res.render('layout/defaultView', { ...resData, contextPath: serverConfig.ContextPath });
 }));
 
 module.exports = router;

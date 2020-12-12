@@ -4,11 +4,12 @@ const asyncHandler = require('express-async-handler');
 const { algo } = require('cas-common-lib');
 const Cognito = require('aws-cognito-ops');
 const Report = require('../classes/Report');
+const serverConfig = require('../server-config.json');
 
 // GET /
 router.get('/:year?', asyncHandler(async (req, res, next) => {
   let accessToken = await Cognito.checkToken(req, res);
-  if (!accessToken) { return res.redirect("/auth"); }
+  if (!accessToken) { return res.redirect(`${serverConfig.ContextPath}/auth`); }
 
   let campaignData, error, tableData;
   let months = [ "January", "February", "March", "April", "May", "June", 
@@ -84,9 +85,10 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
   res.render('layout/defaultView', {
     meta_title: 'Monthly Campaign Report',
     body_content: 'campaign-data',
+    contextPath: serverConfig.ContextPath,
     data: (tableData.length > 0) ? JSON.stringify(tableData) : 0,
     tableId: 'monthlyReportTable',
-    tableType: 'tree'
+    tableType: 'tree',
   });
 }));
 

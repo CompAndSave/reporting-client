@@ -3,11 +3,12 @@ var router = express.Router();
 const asyncHandler = require('express-async-handler');
 const Cognito = require('aws-cognito-ops');
 const Report = require('../classes/Report');
+const serverConfig = require('../server-config.json');
 
 // GET /
 router.get('/', asyncHandler(async (req, res, next) => {
   let accessToken = await Cognito.checkToken(req, res);
-  if (!accessToken) { return res.redirect("/auth"); }
+  if (!accessToken) { return res.redirect(`${serverConfig.ContextPath}/auth`); }
 
   let resData = {}, data="";
 
@@ -28,7 +29,8 @@ router.get('/', asyncHandler(async (req, res, next) => {
       data: data.result[0]
     }
   } 
-  res.render('layout/defaultView', resData);
+
+  res.render('layout/defaultView', { ...resData, contextPath: serverConfig.ContextPath });
 }));
 
 module.exports = router;
