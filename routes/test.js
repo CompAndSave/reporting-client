@@ -9,7 +9,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
     UserPoolId: process.env.AWS_COGNITO_USERPOOL_ID,
     ClientId: process.env.AWS_COGNITO_NODE_APP_CLIENT_ID
   };
-  const pool_region = process.env.AWS_COGNITO_POOL_REGION;
+  // const pool_region = process.env.AWS_COGNITO_POOL_REGION;
   const userPool = new AmazonCognitoIdentity.CognitoUserPool(poolData);
 
   const authenticationDetails = new AmazonCognitoIdentity.AuthenticationDetails({

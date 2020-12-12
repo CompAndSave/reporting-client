@@ -10,16 +10,16 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
   let accessToken = await Cognito.checkToken(req, res);
   if (!accessToken) { return res.redirect(`${serverConfig.ContextPath}/auth`); }
 
-  let resData = {}, data, tableData, reqBody= {}, groupBy;
+  let resData = {}, data, tableData, reqBody= {}, groupBy, year;
   let quarters = ["Q1", "Q2", "Q3", "Q4"];
   let months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ];   
 
-  if(req.params.year){
-    reqBody.year = year = parseInt(req.params.year);
+  if(req.params.year) {
+    reqBody.year = year = Number(req.params.year);
   }
   if(req.params.quarter){
-    reqBody.quarter = parseInt(req.params.quarter);
+    reqBody.quarter = Number(req.params.quarter);
   }
 
   groupBy = reqBody.groupBy = 'quarterly';
@@ -37,7 +37,7 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
     tableData=data.result;
     for(let i=0; i< tableData.length; i++) {
       tableData[i].name = year + ' ' + quarters[i];
-      childData = await Report.getCampaignData({"year": year, "quarter": i+1, "groupBy": "monthly" }, accessToken).catch(err => {
+      let childData = await Report.getCampaignData({"year": year, "quarter": i+1, "groupBy": "monthly" }, accessToken).catch(err => {
         resData = {
           meta_title: 'Script Error',
           body_content: 'error',
