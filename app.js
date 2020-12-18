@@ -19,6 +19,7 @@ var quarterlySummaryReportRouter = require('./routes/quarterlyReport');
 var monthlySummaryReportRouter = require('./routes/monthlyReport');
 var campaignSummaryReportRouter = require('./routes/campaignReport');
 var authRouter = require('./routes/auth');
+var importRouter = require('./routes/import');
 var testRouter = require('./routes/test');
 
 var app = express();
@@ -94,6 +95,7 @@ app.use(`${serverConfig.ContextPath}/quarterly-report`, quarterlySummaryReportRo
 app.use(`${serverConfig.ContextPath}/monthly-report`, monthlySummaryReportRouter);
 app.use(`${serverConfig.ContextPath}/campaign-report`, campaignSummaryReportRouter);
 app.use(`${serverConfig.ContextPath}/auth`, authRouter);
+app.use(`${serverConfig.ContextPath}/import`, importRouter);
 app.use(`${serverConfig.ContextPath}/test`, testRouter);
 
 

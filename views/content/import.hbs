@@ -1,0 +1,57 @@
+{{#if waiting_status}}
+  Import result: {{status}}
+  {{#if message}}<BR>Response Message: {{message}}{{/if}}
+  {{#if (compare status '===' 'pending')}}
+    <BR>
+    <button class="button" id="btnReloadPage" name="btnReloadPage" onclick="reloadPage()">Refresh Page</button>
+    <script>
+      function reloadPage() {
+        location.reload();
+      }
+    </script>
+  {{/if}}
+{{else}}
+  <select id="siteSelect" name="siteSelect">
+    <option value="cas" selected>CompAndSave</option>
+    <option value="ci">ComboInk</option>
+    <option value="ti">TomatoInk</option>
+  </select>
+  <select id="modeSelect" name="modeSelect" onchange="maunalSelect()">
+    <option value="full" selected>Full</option>
+    <option value="quick">Quick</option>
+    <option value="manual">Manual</option>
+  </select>
+  <select id="manualCampaignSelect" name="manualCampaignSelect" hidden>
+    <option value="mc-campaign" selected>MailChimp Campaign</option>
+    <option value="mc-report">MailChimp Report</option>
+    <option value="ga-report">Google Analytics Report</option>
+  </select>
+  <input id="inputStartTime" name="inputStartTime" type="date">
+
+  <BR><BR>
+  <button class="button" id="btnImportDataAndWait" name="btnImportDataAndWait" onclick="importRequest(true)">Import Data and Wait</button>
+  <button class="button" id="btnImportDataNotWait" name="btnImportDataNotWait" onclick="importRequest(false)">Import Data and Not Wait</button>
+  <script src="{{contextPath}}/js/lib/ajaxCall.js"></script>
+  <script src="{{contextPath}}/js/feature/import.js"></script>
+  <script>
+    let x = document.getElementById("modeSelect");
+    let y = document.getElementById("manualCampaignSelect");
+    let site = document.getElementById("siteSelect");
+    let mode = document.getElementById("modeSelect");
+    let manual = document.getElementById("manualCampaignSelect");
+    let startTime = document.getElementById("inputStartTime");
+
+    function maunalSelect() {
+      y.hidden = (x.value !== "manual");
+    }
+
+    function importRequest(wait) {
+      importData({
+        site: site.value,
+        mode: mode.value,
+        manual: mode.value === "manual" ? manual.value : undefined,
+        startTime: startTime.value
+      }, '{{contextPath}}', wait);
+    }
+  </script>
+{{/if}}

@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 require('dotenv').config({ path: path.join(__dirname, '.env')});
 require('./initialize-serverless');
 const serverConfig = require('./server-config.json');
+const asyncApi = require('./services/asyncApi');
 
 var indexRouter = require('./routes/index');
 var annualSummaryReportRouter = require('./routes/yearlyReport');
@@ -15,6 +16,7 @@ var quarterlySummaryReportRouter = require('./routes/quarterlyReport');
 var monthlySummaryReportRouter = require('./routes/monthlyReport');
 var campaignSummaryReportRouter = require('./routes/campaignReport');
 var authRouter = require('./routes/auth');
+var importRouter = require('./routes/import-serverless');
 var testRouter = require('./routes/test');
 
 var app = express();
@@ -64,6 +66,7 @@ app.use(`${serverConfig.ContextPath}/quarterly-report`, quarterlySummaryReportRo
 app.use(`${serverConfig.ContextPath}/monthly-report`, monthlySummaryReportRouter);
 app.use(`${serverConfig.ContextPath}/campaign-report`, campaignSummaryReportRouter);
 app.use(`${serverConfig.ContextPath}/auth`, authRouter);
+app.use(`${serverConfig.ContextPath}/import`, importRouter);
 app.use(`${serverConfig.ContextPath}/test`, testRouter);
 
 
@@ -74,6 +77,8 @@ app.use(function(req, res, next) {
 
 // error handler
 app.use(function(err, req, res, next) {
+  console.log(err);
+  
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -92,4 +97,20 @@ app.use(function(err, req, res, next) {
   res.render('layout/defaultView', resData);
 });
 
-module.exports.handler = serverless(app);
+const handler = serverless(app);
+module.exports.handler = async (event, context) => {
+
+  // if SNS event, route to SNS worker
+  if (event.Records) {
+    console.log(JSON.stringify(event.Records));
+
+    let error;
+    await asyncApi.worker(event.Records[0].Sns.Message).catch(err => error = err);
+    if (error) { console.log(error); }
+  }
+  // if not SQS event, route to ExpressJS
+  else {
+    const result = await handler(event, context);
+    return result;
+  }
+};

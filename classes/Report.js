@@ -7,11 +7,11 @@ class Report {
   static async getCampaignData(bodyRequest, accessToken) {
     const apiUrl = REPORT_API_URL + 'campaign-report'
     let error;
-    let result = await axios.get(apiUrl, {
+    let result = await axios({
+      url: apiUrl,
+      method: "get",
       data: bodyRequest,
-      headers: {
-        'Authorization': `Bearer ${accessToken}`
-      }
+      headers: { 'Authorization': `Bearer ${accessToken}` }
     }).catch(err => error = err);
 
     if (error) { return Promise.reject(error); }

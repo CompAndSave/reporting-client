@@ -51,7 +51,7 @@
         "s3:PutBucketPolicy"
       ],
       "Resource": [
-        "arn:aws:s3:::mc-report-client-serverless*serverlessdeploy*"
+        "arn:aws:s3:::mc-report-client-*serverlessdeploy*"
       ]
     },
     {
@@ -62,7 +62,7 @@
         "s3:DeleteObject"
       ],
       "Resource": [
-        "arn:aws:s3:::mc-report-client-serverless*serverlessdeploy*",
+        "arn:aws:s3:::mc-report-client-*serverlessdeploy*",
         "arn:aws:s3:::mailchimp-reporting-system-artifacts/mc-reporting-client/BuildArtif/*"
       ]
     },

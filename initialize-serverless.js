@@ -1,4 +1,5 @@
 const Cognito = require('aws-cognito-ops');
+const AsyncApi = require('./classes/AsyncApi');
 const serverConfig = require('./server-config.json');
 
 // Add functions to String prototype
@@ -30,3 +31,21 @@ Cognito.poolData = {
   UserPoolId: process.env.AWS_COGNITO_USERPOOL_ID,
   ClientId: process.env.AWS_COGNITO_NODE_APP_CLIENT_ID
 };
+
+// initalize AsyncApi
+// it will be used for async import endpoint for queueing control, the queue size should be one
+//
+AsyncApi.initialize(process.env.REDIS_URL, serverConfig.AsyncApiRedisPrefix, 1);
+
+// catching signals and clean up connections
+// note: SIGKILL is not working at linux environment.
+//
+['SIGHUP', 'SIGINT', 'SIGILL', 'SIGABRT', 'SIGPIPE', 'SIGBREAK',
+ 'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM', 'exit'
+].forEach(signal => {
+  process.on(signal, () => {
+    AsyncApi.close();
+    console.log(`Exit ${signal} - Redis disconnected on app termination`);
+    process.exit(0);
+  });
+});

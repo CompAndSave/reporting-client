@@ -10,3 +10,6 @@ provider:
 functions:
   app:
     handler: app-serverless.handler
+    timeout: 30
+    events:
+      - sns: arn:aws:sns:us-west-2:982834960524:mailchimp-reporting-api-import-result
