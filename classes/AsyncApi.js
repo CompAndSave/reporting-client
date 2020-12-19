@@ -17,6 +17,7 @@ class AsyncApi {
   constructor() {}
 
   static async initialize(redisUrl, prefix, size = 5) {
+    AsyncApi.size = size;
     AsyncApi.client = redis.createClient({
       url: redisUrl,
       prefix: prefix
@@ -28,17 +29,22 @@ class AsyncApi {
 
     // if queue size and count were initialized already, skip the initialization
     //
-    if (await AsyncApi.getSize() != size) {
-      await Promise.all([AsyncApi.setCount(0), AsyncApi.setSize(size)]);
-    }
+    if (await AsyncApi.getSize() != size) { await AsyncApi.initializeRedis(); }
   }
 
-  static close() {
-    AsyncApi.client.quit();
-  }
+  static close() { AsyncApi.client.quit(); }
+  static async initializeRedis() { return await Promise.all([AsyncApi.setCount(0), AsyncApi.setSize(AsyncApi.size)]); }
 
-  static async getSize() { return Promise.resolve(await AsyncApi.getRedis("QUEUE_SIZE")); }
-  static async getCount() { return Promise.resolve(await AsyncApi.getRedis("QUEUE_COUNT")); }
+  static async getSize() {
+    let size = await AsyncApi.getRedis("QUEUE_SIZE");
+    if (size === null) { await AsyncApi.initializeRedis(); }
+    return Promise.resolve(size === null ? AsyncApi.size : size);
+  }
+  static async getCount() {
+    let size = await AsyncApi.getRedis("QUEUE_COUNT");
+    if (size === null) { await AsyncApi.initializeRedis(); }
+    return Promise.resolve(size === null ? 0 : size);
+  }
   static async setSize(value) { return Promise.resolve(await AsyncApi.setRedis("QUEUE_SIZE", value)); }
   static async setCount(value) { return Promise.resolve(await AsyncApi.setRedis("QUEUE_COUNT", value)); }
   

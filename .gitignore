@@ -4,3 +4,4 @@
 /dummy/
 package-lock.json
 /.serverless/
+serverless.yml

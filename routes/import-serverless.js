@@ -59,7 +59,7 @@ router.get('/status/:id', asyncHandler(async (req, res, next) => {
       status = message.httpStatus == 200 ? "done" : "error";
   }
 
-  res.render('layout/defaultView', { ...resData, contextPath: serverConfig.ContextPath, status: status, message: message && message.data ? JSON.stringify(message.data) : undefined });
+  res.render('layout/defaultView', { ...resData, contextPath: serverConfig.ContextPath, status: status, message: message && message.response ? JSON.stringify(message.response) : undefined });
 }));
 
 // POST /import

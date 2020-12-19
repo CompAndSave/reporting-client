@@ -3,7 +3,7 @@
     "ExpressErrorLogPath": "logs/express-error.log",
     "CustomErrorLogPath": "logs/error.log",
     "ContextPath": "/mc",
-    "MaxTimeout": 25000,
+    "MaxTimeout": 30000,
     "CheckTimeRange": 2000,
     "AsyncApiRedisPrefix": "ASYNC_API_"
 }
