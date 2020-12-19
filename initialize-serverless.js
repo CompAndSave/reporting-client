@@ -1,6 +1,8 @@
 const Cognito = require('aws-cognito-ops');
+const path = require('path');
 const AsyncApi = require('./classes/AsyncApi');
 const serverConfig = require('./server-config.json');
+require('dotenv').config({ path: path.join(__dirname, '.env')});
 
 // Add functions to String prototype
 //
