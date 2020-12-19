@@ -31,8 +31,6 @@ Cognito.poolData = {
   ClientId: process.env.AWS_COGNITO_NODE_APP_CLIENT_ID
 };
 
-console.log(Cognito);
-
 // initalize AsyncApi
 // it will be used for async import endpoint for queueing control, the queue size should be one
 //
