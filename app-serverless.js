@@ -5,7 +5,6 @@ var exphbs = require('express-handlebars');
 var hbsHelpers = require('./lib/hbs-helpers');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-require('dotenv').config({ path: path.join(__dirname, '.env')});
 require('./initialize-serverless');
 const serverConfig = require('./server-config.json');
 const asyncApi = require('./services/asyncApi');
