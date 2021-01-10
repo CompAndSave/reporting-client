@@ -5,3 +5,4 @@
 package-lock.json
 /.serverless/
 serverless.yml
+/routes/test.js
