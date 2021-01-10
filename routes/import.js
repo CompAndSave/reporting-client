@@ -24,6 +24,13 @@ router.get('/', asyncHandler(async (req, res, next) => {
 
 // POST /import
 router.post('/', asyncHandler(async (req, res, next) => {
+
+  // Set request timeout as 15 mins (Lambda max timeout is 15 mins)
+  // The default timeout for nodejs is 2mins and it is not long enough for this request to be done
+  // Browser will automatically make another request after timeout and it will cause the script run again asynchronously
+  //
+  req.setTimeout(900000);
+
   let accessToken = await Cognito.checkToken(req, res);
   if (!accessToken) { return await resHandler.handleRes(req, res, next, 401, { message: "not-authorized" }); }
 
