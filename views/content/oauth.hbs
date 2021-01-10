@@ -22,7 +22,7 @@
     let userName = document.getElementById("username.authCodeGrant");
     if (userName.value === "") { alert("User name cannot be empty"); }
     else {
-      document.cookie = `AWSCognito_username=${x.value}; path={{contextPath}}/; expires=Mon, 01 Jan 2100 00:00:00 UTC`;
+      document.cookie = `AWSCognito_username=${userName.value}; path={{contextPath}}/; expires=Mon, 01 Jan 2100 00:00:00 UTC`;
       window.location.replace("{{{auth_code_redirect_url}}}");
     }
   }
