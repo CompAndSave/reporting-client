@@ -13,7 +13,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
   if (!accessToken) { return res.redirect(`${serverConfig.ContextPath}/auth`); }
 
   let resData = {
-    meta_title: "Import Data",
+    meta_title: "Fetch Data",
     body_content: 'import',
     waiting_status: false,
     host_instance: true
