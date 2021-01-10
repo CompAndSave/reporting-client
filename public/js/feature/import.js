@@ -6,13 +6,11 @@ function importData(data, contextPath, wait, isHosted) {
       messageWrapper.className= "callout success";
       messageWrapper.innerHTML= "Report data has been successfuly updated.";
       messageWrapper.style.display = "block";
-      console.log(data);
     }
     else { location.href = `${contextPath}/import/status/${data.id}?wait=${wait}`; } 
   }).catch(err => {
     messageWrapper.className= "callout alert";
     messageWrapper.innerHTML= "Report data update failed. " + err.message;
     messageWrapper.style.display = "block";
-    console.log(err);
   });
 }
