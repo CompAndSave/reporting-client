@@ -40,7 +40,7 @@ Cognito.poolData = {
 
 // initialize the Report API url
 //
-Report.reportApiUrl = process.env.REPORT_API_URL_SANDBOX
+Report.reportApiUrl = process.env.REPORT_API_URL_SANDBOX;
 
 // initialize log file paths and showConsole variable
 //
