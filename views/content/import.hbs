@@ -1,57 +1,80 @@
 {{#if waiting_status}}
-  Import result: {{status}}
-  {{#if message}}<BR>Response Message: {{message}}{{/if}}
-  {{#if (compare status '===' 'pending')}}
-    <BR>
-    <button class="button" id="btnReloadPage" name="btnReloadPage" onclick="reloadPage()">Refresh Page</button>
-    <script>
-      function reloadPage() {
-        location.reload();
-      }
-    </script>
-  {{/if}}
+Import result: {{status}}
+{{#if message}}<BR>Response Message: {{message}}{{/if}}
+{{#if (compare status '===' 'pending')}}
+<BR>
+<button class="button" id="btnReloadPage" name="btnReloadPage" onclick="reloadPage()">Refresh Page</button>
+<script>
+  function reloadPage() {
+    location.reload();
+  }
+</script>
+{{/if}}
 {{else}}
-  <select id="siteSelect" name="siteSelect">
-    <option value="cas" selected>CompAndSave</option>
-    <option value="ci">ComboInk</option>
-    <option value="ti">TomatoInk</option>
-  </select>
-  <select id="modeSelect" name="modeSelect" onchange="maunalSelect()">
-    <option value="full" selected>Full</option>
-    <option value="quick">Quick</option>
-    <option value="manual">Manual</option>
-  </select>
-  <select id="manualCampaignSelect" name="manualCampaignSelect" hidden>
-    <option value="mc-campaign" selected>MailChimp Campaign</option>
-    <option value="mc-report">MailChimp Report</option>
-    <option value="ga-report">Google Analytics Report</option>
-  </select>
-  <input id="inputStartTime" name="inputStartTime" type="date">
+<div class="grid-x grid-margin-x">
+  <div class="cell small-12 medium-6 large-3 form-wrapper">
+    <label>Site Name
+      <select id="siteSelect" name="siteSelect">
+        <option value="cas" selected>CompAndSave</option>
+        <option value="ci">ComboInk</option>
+        <option value="ti">TomatoInk</option>
+      </select>
+    </label>
+    <label>Fetch Mode
+      <select id="modeSelect" name="modeSelect" onchange="maunalSelect()">
+        <option value="full" selected>Full</option>
+        <option value="quick">Quick</option>
+        <option value="manual">Manual</option>
+      </select>
+    </label>
+    <label id="manualCampaignSelect" hidden>Report Type
+      <select name="manualCampaignSelect">
+        <option value="mc-campaign" selected>MailChimp Campaign</option>
+        <option value="mc-report">MailChimp Report</option>
+        <option value="ga-report">Google Analytics Report</option>
+      </select>
+    </label>
+    <label>
+      Report Start Date
+      <input id="inputStartTime" name="inputStartTime" type="date" aria-describedby="startTimeHelpText">
+    </label><br>
+    <button class="button" id="btnImportDataAndWait" name="btnImportDataAndWait" onclick="importRequest(true)">Import
+      Data and Wait</button>
+    <button class="button" id="btnImportDataNotWait" name="btnImportDataNotWait" onclick="importRequest(false)">Import
+      Data and Not Wait</button>
+  </div>
+  <div class="cell small-12 medium-6 large-3">
+    <div class="callout">
+      <h5>Fetch Mode:</h5>
+      <ul>
+        <li><strong>Full:</strong> Import all Mailchimp campaign and report data plus Google Analytics report data.</li>
+        <li><strong>Quick:</strong> Import Mailchimp or Google Analytics report data only.</li>
+        <li><strong>Manual:</strong> Manually select the data to import; Mailchimp campaign data, Mailchimp report data or GA report data.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="{{contextPath}}/js/lib/ajaxCall.js"></script>
+<script src="{{contextPath}}/js/feature/import.js"></script>
+<script>
+  let x = document.getElementById("modeSelect");
+  let y = document.getElementById("manualCampaignSelect");
+  let site = document.getElementById("siteSelect");
+  let mode = document.getElementById("modeSelect");
+  let manual = document.getElementById("manualCampaignSelect");
+  let startTime = document.getElementById("inputStartTime");
 
-  <BR><BR>
-  <button class="button" id="btnImportDataAndWait" name="btnImportDataAndWait" onclick="importRequest(true)">Import Data and Wait</button>
-  <button class="button" id="btnImportDataNotWait" name="btnImportDataNotWait" onclick="importRequest(false)">Import Data and Not Wait</button>
-  <script src="{{contextPath}}/js/lib/ajaxCall.js"></script>
-  <script src="{{contextPath}}/js/feature/import.js"></script>
-  <script>
-    let x = document.getElementById("modeSelect");
-    let y = document.getElementById("manualCampaignSelect");
-    let site = document.getElementById("siteSelect");
-    let mode = document.getElementById("modeSelect");
-    let manual = document.getElementById("manualCampaignSelect");
-    let startTime = document.getElementById("inputStartTime");
+  function maunalSelect() {
+    y.hidden = (x.value !== "manual");
+  }
 
-    function maunalSelect() {
-      y.hidden = (x.value !== "manual");
-    }
-
-    function importRequest(wait) {
-      importData({
-        site: site.value,
-        mode: mode.value,
-        manual: mode.value === "manual" ? manual.value : undefined,
-        startTime: startTime.value
-      }, '{{contextPath}}', wait);
-    }
-  </script>
+  function importRequest(wait) {
+    importData({
+      site: site.value,
+      mode: mode.value,
+      manual: mode.value === "manual" ? manual.value : undefined,
+      startTime: startTime.value
+    }, '{{contextPath}}', wait);
+  }
+</script>
 {{/if}}
