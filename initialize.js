@@ -2,6 +2,7 @@ const path = require('path');
 const { Log } = require('cas-common-lib');
 const serverConfig = require('./server-config');
 const Cognito = require('aws-cognito-ops');
+const Report = require('./classes/Report');
 
 // Add functions to String prototype
 //
@@ -16,6 +17,10 @@ String.prototype.titleCase = function() {
   }
   return splitStrArray.join(" ");
 }
+
+// **********************************************************
+// Local / host instance will only use SANDBOX variables now
+// **********************************************************
 
 // initialize Congito static variables
 //
@@ -32,6 +37,10 @@ Cognito.poolData = {
   UserPoolId: process.env.AWS_COGNITO_USERPOOL_ID,
   ClientId: process.env.SANDBOX_AWS_COGNITO_NODE_APP_CLIENT_ID
 };
+
+// initialize the Report API url
+//
+Report.reportApiUrl = process.env.REPORT_API_URL_SANDBOX
 
 // initialize log file paths and showConsole variable
 //

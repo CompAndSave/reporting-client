@@ -1,6 +1,8 @@
 const Cognito = require('aws-cognito-ops');
 const AsyncApi = require('./classes/AsyncApi');
+const Report = require('./classes/Report');
 const serverConfig = require('./server-config.json');
+
 // Add functions to String prototype
 //
 String.prototype.capitalize = function() {
@@ -30,6 +32,10 @@ Cognito.poolData = {
   UserPoolId: process.env.AWS_COGNITO_USERPOOL_ID,
   ClientId: process.env.AWS_COGNITO_NODE_APP_CLIENT_ID
 };
+
+// initialize the Report API url
+//
+Report.reportApiUrl = process.env.NODE_ENV === "production" ? process.env.REPORT_API_URL_PROD : process.env.REPORT_API_URL_STG;
 
 // initalize AsyncApi
 // it will be used for async import endpoint for queueing control, the queue size should be one

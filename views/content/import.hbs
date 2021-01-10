@@ -38,10 +38,15 @@ Import result: {{status}}
       Report Start Date
       <input id="inputStartTime" name="inputStartTime" type="date" aria-describedby="startTimeHelpText">
     </label><br>
+    {{#unless host_instance}}
     <button class="button" id="btnImportDataAndWait" name="btnImportDataAndWait" onclick="importRequest(true)">Import
       Data and Wait</button>
     <button class="button" id="btnImportDataNotWait" name="btnImportDataNotWait" onclick="importRequest(false)">Import
       Data and Not Wait</button>
+    {{else}}
+    <button class="button" id="btnImportDataNotWait" name="btnImportDataNotWait" onclick="importRequest(false, true)">Import
+      Data</button>
+    {{/unless}}
   </div>
   <div class="cell small-12 medium-6 large-3">
     <div class="callout">
@@ -68,13 +73,13 @@ Import result: {{status}}
     y.hidden = (x.value !== "manual");
   }
 
-  function importRequest(wait) {
+  function importRequest(wait, isHosted) {
     importData({
       site: site.value,
       mode: mode.value,
       manual: mode.value === "manual" ? manual.value : undefined,
       startTime: startTime.value
-    }, '{{contextPath}}', wait);
+    }, '{{contextPath}}', wait, isHosted);
   }
 </script>
 {{/if}}
