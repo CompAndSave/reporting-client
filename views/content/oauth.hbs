@@ -1,15 +1,19 @@
 {{#if redirect_url}}
-<div class="login-wrapper">
-  <h1>Login</h1>
-  <p>Click on either of the button below to login via AWS Cognito and get your oauth token.</p>
-  <div class="grid-x grid-margin-x align-center">
-    <div class="cell shrink">
-      <a href="{{redirect_url}}" class="button hollow">GET 1-HOUR ACCESS GRANT<br><small>Implicit Grant</small></a>
-    </div>
-    <div class="cell shrink">
-      GET 30-DAYS ACCESS GRANT<br><small>Auth Code Grant</small><br>
-      <input id="username.authCodeGrant" name="username.authCodeGrant" placeholder="Your AWS Cognito user name" size="30">
-      <button class="button" id="btnAuthCodeGrant" name="btnAuthCodeGrant" onclick="getAuthCodeToken()">Go</button>
+<div class="grid-x grid-margin-x">
+  <div class="cell small-12 medium-4 login-wrapper">
+    <h2>Temporary Access</h2>
+    <p>Temporary access token will be given without having to re-enter your credentials info. Token expires in 1 hour.</p>
+    <a href="{{redirect_url}}" class="button hollow">GET 1-HOUR ACCESS GRANT<br><small>Implicit Grant</small></a>
+  </div>
+  <div class="cell small-12 medium-4 login-wrapper">
+    <h2>One Month Access</h2>
+    <p>A longer time access token will be given without having to re-enter your credentials info. Token expires in 30 days.</p>
+    <div class="input-group ">
+      <span class="input-group-label"><i class="fas fa-user"></i></span>
+      <input class="input-group-field"  id="username.authCodeGrant" type="text" name="username.authCodeGrant" placeholder="Your AWS Cognito user name">
+      <div class="input-group-button">
+        <input type="submit" class="button"id="btnAuthCodeGrant" name="btnAuthCodeGrant" onclick="getAuthCodeToken()" value="Go">
+      </div>
     </div>
   </div>
 </div>
