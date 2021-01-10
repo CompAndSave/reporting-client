@@ -8,7 +8,7 @@
         <li>
           <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-coins"></i></span>
             Quarterly Summary</a>
-          <ul class="menu vertical nested is-active">
+          <ul class="menu vertical nested">
             <li>
               <a href="{{contextPath}}/quarterly-report/2020" class="menu-item">2020</a>
             </li>
@@ -20,7 +20,7 @@
         <li>
           <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-table"></i></span> Monthly
             Summary</a>
-          <ul class="menu vertical nested is-active">
+          <ul class="menu vertical nested">
             <li>
               <a href="{{contextPath}}/monthly-report/2020" class="menu-item">2020</a>
             </li>
@@ -70,7 +70,7 @@
             </li>
             <li><a href="javascript:void(0)" class="menu-item">2021</a>
               <ul class="menu vertical nested is-active">
-                {{#repeatUntil 0 13}}
+                {{#repeatUntil 0 (math (currentMonth) '+' 2)}}
                 <li>
                   <a href="javascript:void(0)" class="menu-item">{{numToMonth this false}}</a>
                   <ul class="menu vertical nested {{#if (compare (currentMonth) '==' (math this '-' 1))}}is-active {{/if}}">
@@ -84,6 +84,15 @@
               </ul>
             </li>
           </ul>
+        </li>
+        <li>
+          <a href="javascript:void(0)" class="menu-item"><span class="icon"><i class="fas fa-tools"></i></span>
+            TOOLS</a>
+            <ul class="menu vertical nested">
+              <li>
+                <a href="{{contextPath}}/import" class="menu-item-nested"><span class="icon"><i class="fas fa-download"></i></span> Fetch Data</a>
+              </li>
+            </ul>
         </li>
       </ul>
     </div>

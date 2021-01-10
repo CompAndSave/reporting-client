@@ -1,59 +1,31 @@
-<div class="card ytd-card text-center">
-  <div class="card-divider align-center">
-    <span class="title"><i class="far fa-calendar-alt icon"></i> 2020</span>
-  </div>
-  <div class="card-section">
-    <div class="grid-x">
-      <div class="cell auto">
-        <div class="metric">
-          <span class="value">{{numberWithCommas data.emails_sent}}</span>
-          <span class="tag">EMAILS SENT</span>
+{{#each data as |report|}}
+  <div class="card ytd-card text-center margin-bottom-3">
+    <div class="card-divider align-center">
+      <span class="title"><i class="far fa-calendar-alt icon"></i> {{report.year}}</span>
+    </div>
+    <div class="card-section">
+      <div class="grid-x">
+        <div class="cell auto">
+          <div class="metric">
+            <span class="value">{{numberWithCommas report.emails_sent}}</span>
+            <span class="tag">EMAILS SENT</span>
+          </div>
         </div>
-      </div>
 
-      <div class="cell auto">
-        <div class="metric">
-          <span class="value">{{numberWithCommas data.transaction}}</span>
-          <span class="tag">TRANSACTION</span>
+        <div class="cell auto">
+          <div class="metric">
+            <span class="value">{{numberWithCommas report.transaction}}</span>
+            <span class="tag">TRANSACTION</span>
+          </div>
         </div>
-      </div>
 
-      <div class="cell auto">
-        <div>
-          <span class="value">{{formatMoney data.revenue}}</span>
-          <span class="tag">REVENUE</span>
+        <div class="cell auto">
+          <div>
+            <span class="value">{{formatMoney report.revenue}}</span>
+            <span class="tag">REVENUE</span>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
-
-<div class="card ytd-card text-center">
-  <div class="card-divider align-center">
-    <span class="title"><i class="far fa-calendar-alt icon"></i> 2021</span>
-  </div>
-  <div class="card-section">
-    <div class="grid-x">
-      <div class="cell auto">
-        <div class="metric">
-          <span class="value">{{numberWithCommas data.emails_sent}}</span>
-          <span class="tag">EMAILS SENT</span>
-        </div>
-      </div>
-
-      <div class="cell auto">
-        <div class="metric">
-          <span class="value">{{numberWithCommas data.transaction}}</span>
-          <span class="tag">TRANSACTION</span>
-        </div>
-      </div>
-
-      <div class="cell auto">
-        <div>
-          <span class="value">{{formatMoney data.revenue}}</span>
-          <span class="tag">REVENUE</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+{{/each}}

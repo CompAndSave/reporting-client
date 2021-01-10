@@ -37,20 +37,20 @@ $nav-icon-size: rem-calc(18);
   }
   .menu-item {
     @extend %menu-item;
-    .icon {
-      display: inline-block;
-      min-width: rem-calc(24);
-      color: $nav-icon-color;
-      font-size: $nav-icon-size;
-      vertical-align: baseline;
-      margin-right: rem-calc(5);
-      text-align: center;
-    }
     &+ .nested {
       .menu-item-nested, .menu-item {
         @extend %menu-item;
         margin-left: 1rem;
       }
     }
+  }
+  .icon {
+    display: inline-block;
+    min-width: rem-calc(24);
+    color: $nav-icon-color;
+    font-size: $nav-icon-size;
+    vertical-align: baseline;
+    margin-right: rem-calc(5);
+    text-align: center;
   }
 }
