@@ -26,7 +26,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
     resData = {
       meta_title: '',
       body_content: 'index',
-      data: data.result[0]
+      data: data.result
     }
   } 
 

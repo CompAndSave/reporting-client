@@ -4186,9 +4186,9 @@ ol.list-upper-roman {
 .page-title {
   text-transform: capitalize; }
 
-.login-wrapper {
+.form-wrapper {
   background: #E0E0E0;
-  padding: 3rem 0; }
+  padding: 3rem; }
 
 .ytd-card {
   border-radius: 0.3125rem;
@@ -4256,7 +4256,10 @@ ol.list-upper-roman {
     font-weight: 700;
     color: #616161; }
 
-.menu-wrapper .menu-item .icon {
+.menu-wrapper .menu-item + .nested .menu-item-nested, .menu-wrapper .menu-item + .nested .menu-item {
+  margin-left: 1rem; }
+
+.menu-wrapper .icon {
   display: inline-block;
   min-width: 1.5rem;
   color: #adadad;
@@ -4264,6 +4267,3 @@ ol.list-upper-roman {
   vertical-align: baseline;
   margin-right: 0.3125rem;
   text-align: center; }
-
-.menu-wrapper .menu-item + .nested .menu-item-nested, .menu-wrapper .menu-item + .nested .menu-item {
-  margin-left: 1rem; }

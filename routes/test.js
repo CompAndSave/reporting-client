@@ -1,14 +1,14 @@
 var express = require('express');
 var router = express.Router();
 const asyncHandler = require('express-async-handler');
-const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
-const redis = require("redis");
-const client = redis.createClient({
-  url: "redis://beta-magento-cache.ylv4lb.ng.0001.usw2.cache.amazonaws.com:6379/14"
-});
-client.on("error", function(error) {
-  console.error(error);
-});
+// const AmazonCognitoIdentity = require('amazon-cognito-identity-js');
+// const redis = require("redis");
+// const client = redis.createClient({
+//   url: "redis://beta-magento-cache.ylv4lb.ng.0001.usw2.cache.amazonaws.com:6379/14"
+// });
+// client.on("error", function(error) {
+//   console.error(error);
+// });
 
 // GET /test
 router.get('/', asyncHandler(async (req, res, next) => {
