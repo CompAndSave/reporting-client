@@ -33,13 +33,12 @@ Fetch Data Status: <span class="badge {{#if (compare status '===' 'done')}}succe
         <option value="manual">Manual</option>
       </select>
     </label>
-    <label id="manualCampaignSelect" hidden>Report Type
-      <select name="manualCampaignSelect">
-        <option value="mc-campaign" selected>MailChimp Campaign</option>
+      <select name="manualCampaignSelect" id="manualCampaignSelect" hidden>
+        <option value="" selected>Select Report Type</option>
+        <option value="mc-campaign">MailChimp Campaign</option>
         <option value="mc-report">MailChimp Report</option>
         <option value="ga-report">Google Analytics Report</option>
       </select>
-    </label>
     <label>
       Report Start Date
       <input id="inputStartTime" name="inputStartTime" type="date" aria-describedby="startTimeHelpText">
