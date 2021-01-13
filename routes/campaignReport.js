@@ -10,7 +10,13 @@ router.get('/:year/:month/:promoNum?', asyncHandler(async (req, res, next) => {
   let accessToken = await Cognito.checkToken(req, res);
   if (!accessToken) { return res.redirect(`${serverConfig.ContextPath}/auth`); }
 
-  let resData = {}, data, tableData, reqBody= {}, error=false, groupBy;
+  let site = req.query.site;
+  
+  // if site parameter is not a valid site key or not provided, set it to cas
+  //
+  if (typeof site === "undefined" || ["cas", "ci", "ti"].filter(item => item === site).length === 0) { site = "cas"; }
+
+  let resData = {}, data, tableData, reqBody = { site: site }, error=false, groupBy;
   let quarters = ["Q1", "Q2", "Q3", "Q4"];
   let months = [ "January", "February", "March", "April", "May", "June", 
            "July", "August", "September", "October", "November", "December" ]; 
@@ -88,7 +94,7 @@ router.get('/:year/:month/:promoNum?', asyncHandler(async (req, res, next) => {
       }
     }
     resData = {
-      meta_title: 'Campaign Report',
+      meta_title: `Campaign Report for ${site.toUpperCase()}`,
       body_content: 'campaign-data',
       data: (tableData.length > 0) ? JSON.stringify(tableData) : 0,
       tableId: groupBy+'ReportTable'

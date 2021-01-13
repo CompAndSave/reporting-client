@@ -10,6 +10,12 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
   let accessToken = await Cognito.checkToken(req, res);
   if (!accessToken) { return res.redirect(`${serverConfig.ContextPath}/auth`); }
 
+  let site = req.query.site;
+
+  // if site parameter is not a valid site key, set it to all 3 sites
+  //
+  if (typeof site !== "undefined" && ["cas", "ci", "ti"].filter(item => item === site).length === 0) { site = undefined; }
+
   let resData = {}, data, tableData, reqBody= {}, groupBy, year;
   let quarters = ["Q1", "Q2", "Q3", "Q4"];
   let months = [ "January", "February", "March", "April", "May", "June", 
@@ -20,6 +26,9 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
   }
   if(req.params.quarter){
     reqBody.quarter = Number(req.params.quarter);
+  }
+  if (site) {
+    reqBody.site = site;
   }
 
   groupBy = reqBody.groupBy = 'quarterly';
@@ -54,7 +63,7 @@ router.get('/:year?', asyncHandler(async (req, res, next) => {
       }
     } 
     resData = {
-      meta_title: 'Quarterly Campaign Report',
+      meta_title: site ? `Quarterly Campaign Report for ${site.toUpperCase()}` : `Quarterly Campaign Report for all 3 sites`,
       body_content: 'campaign-data',
       data: (tableData.length > 0) ? JSON.stringify(tableData) : 0,
       tableId: groupBy+'ReportTable',
