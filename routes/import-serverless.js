@@ -4,10 +4,7 @@ const asyncHandler = require('express-async-handler');
 const Cognito = require('aws-cognito-ops');
 const resHandler = require('../services/resHandler');
 const serverConfig = require('../server-config.json');
-const AsyncApi = require('../classes/AsyncApi');
-const axios = require('axios');
-const { timer } = require('cas-common-lib');
-const REPORT_API_URL = process.env.NODE_ENV === "production" ? process.env.REPORT_API_URL_PROD : process.env.REPORT_API_URL_STG;
+const ImportData = require('../classes/ImportData');
 
 // GET /import
 router.get('/', asyncHandler(async (req, res, next) => {
@@ -37,29 +34,9 @@ router.get('/status/:id', asyncHandler(async (req, res, next) => {
     waiting_status: true
   };
 
-  let done = false, ts = new Date(), wait = req.query.wait === "true" ? true : false;
-  do {
-    done = await AsyncApi.checkDone(req.params.id);
-    if (done === null) { break; }
-    if (!done) { await timer.timeout(serverConfig.CheckTimeRange); }
-  } while (wait && !done && (new Date() - ts) < serverConfig.MaxTimeout);
+  let result = await ImportData.getStatus(req.params.id, req.query.wait === "true" ? true : false, serverConfig.CheckTimeRange, serverConfig.MaxTimeout);
 
-  if (done) { await AsyncApi.removeRequest(req.params.id); }
-
-  let status, message;
-  switch (done) {
-    case false:
-      status = "pending";
-      break;
-    case null:
-      status = "not found";
-      break;
-    default:
-      message = JSON.parse(done);
-      status = message.httpStatus == 200 ? "done" : "error";
-  }
-
-  res.render('layout/defaultView', { ...resData, contextPath: serverConfig.ContextPath, status: status, message: message && message.response ? JSON.stringify(message.response) : undefined });
+  res.render('layout/defaultView', { ...resData, contextPath: serverConfig.ContextPath, status: result.status, message: result.message });
 }));
 
 // POST /import
@@ -67,25 +44,12 @@ router.post('/', asyncHandler(async (req, res, next) => {
   let accessToken = await Cognito.checkToken(req, res);
   if (!accessToken) { return await resHandler.handleRes(req, res, next, 401, { message: "not-authorized" }); }
 
-  let error;
-  await AsyncApi.addRequest().catch(err => error = err);
-  if (error) { return await resHandler.handleRes(req, res, next, 400, { message: error }, error); }
+  let error, result = await ImportData.serverlessImport(req.body.data, accessToken).catch(err => error = err);
+  
+  if (typeof error !== "undefined" && error.message === "missing-<MessageId>-tag-at-response-message") { return await resHandler.handleRes(req, res, next, 400, { message: error.message }, error.stack); }
+  else if (typeof error !== "undefined") { return await resHandler.handleRes(req, res, next, 400, { message: error.message ? error.message : error }, error); }
 
-  const apiUrl = REPORT_API_URL + 'import';
-  let result = await axios({
-    url: apiUrl,
-    method: "post",
-    data: req.body.data,
-    headers: {
-      'Authorization': `Bearer ${accessToken}`
-    }
-  });
-
-  let messageId = result.data.match(/<MessageId>(.*)<\/MessageId>/);
-  if (!messageId) { return await resHandler.handleRes(req, res, next, 400, { message: "missing-<MessageId>-tag-at-response-message" }, result.data); }
-
-  await AsyncApi.setRequest(messageId[1]);
-  await resHandler.handleRes(req, res, next, 200, { id: messageId[1] });
+  await resHandler.handleRes(req, res, next, 200, { id: result });
 }));
 
 module.exports = router;

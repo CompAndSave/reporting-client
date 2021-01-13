@@ -1,7 +1,7 @@
-const AsyncApi = require('../classes/AsyncApi');
+const AsyncApiQueue = require('async-api-queue');
 
 async function worker(message) {
-  let result = await AsyncApi.setDone(JSON.parse(message).id, message);
+  let result = await AsyncApiQueue.setDone(JSON.parse(message).id, message);
   return Promise.resolve(result);
 }
 

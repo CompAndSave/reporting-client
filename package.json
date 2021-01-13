@@ -1,5 +1,5 @@
 {
-  "name": "datafeed-api",
+  "name": "report-client",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -9,6 +9,7 @@
   "dependencies": {
     "@fortawesome/fontawesome-free": "^5.14.0",
     "amazon-cognito-identity-js": "^4.5.5",
+    "async-api-queue": "^0.1.0",
     "aws-cognito-ops": "^0.1.7",
     "axios": "^0.21.1",
     "cas-common-lib": "^0.5.2",
@@ -29,7 +30,6 @@
     "morgan": "^1.10.0",
     "nodemon": "^2.0.4",
     "qs": "^6.9.4",
-    "redis": "^3.0.2",
     "serverless-http": "^2.6.0",
     "tabulator-tables": "^4.9.1",
     "winston": "^3.3.3"
