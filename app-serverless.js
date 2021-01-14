@@ -79,7 +79,7 @@ app.use(function(err, req, res, next) {
   res.locals.message = err.message;
   res.locals.error = process.env.NODE_DEV === 'development' ? err : {};
 
-  let resData = {};
+  let resData = { contextPath: serverConfig.ContextPath };
 
   // render the error page
   res.status(err.status || 500);
