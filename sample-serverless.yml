@@ -1,0 +1,38 @@
+service: mc-report-client-serverless
+plugins:
+  - serverless-dotenv-plugin
+
+provider:
+  name: aws
+  runtime: nodejs12.x
+  stage: ${opt:stage, 'stg'}
+  region: ${opt:region, 'us-west-2'}
+  environment:
+    NODE_ENV: ${file(./serverless-config.js):getNodeEnv}
+  # Optional - For AWS X-Ray
+  tracing:
+    lambda: true
+
+functions:
+  app:
+    handler: app-serverless.handler
+    vpc: # Optional VPC. But if you use VPC then both subproperties (securityGroupIds and subnetIds) are required
+      securityGroupIds:
+        - YOUR_LAMBDA_SECURITY_GROUP
+      subnetIds:
+        - YOUR_LAMBDA_SUBNET_1
+        - YOUR_LAMBDA_SUBNET_2
+    timeout: 290
+    events:
+      - sns: YOUR_SNS_ARN
+      - alb:
+          listenerArn: YOUR_ALB_ARN
+          priority: ${file(./serverless-config.js):getAlbPriority}
+          conditions:
+            host: ${file(./serverless-config.js):getAlbHost}
+            path: /mc/*
+    # Optional - For AWS X-Ray
+    tracing: Active
+    # Optional - For AWS Lambda Insights
+    layers:
+      - YOUR_LAMBDA_INSIGHTS_LAYER_ARN
