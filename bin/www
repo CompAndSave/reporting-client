@@ -37,7 +37,7 @@ function syncing(){
   console.log('Demo server available on http://localhost:' + port);
   const browserSync = require('browser-sync');
   browserSync({
-    files: ['public/**/*.{html,js,css}', 'views/ejs/**/*.ejs', 'views/hbs/**/*.hbs', 'scss/**/*.scss'],
+    files: ['public/**/*.{html,js,css}','views/**/*.hbs', 'scss/**/*.scss'],
     online: false,
     open: false,
     port: port+10,

@@ -7,4 +7,7 @@ $header-background: #263238;
 .logo {
   display: block;
   line-height: 1;
+  &.gray {
+    filter: invert(1) opacity(0.75);
+  }
 }

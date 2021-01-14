@@ -2,3 +2,8 @@
 .env*
 /logs/*.log
 /dummy/
+package-lock.json
+/.serverless/
+serverless.yml
+/routes/test.js
+serverless-config.js

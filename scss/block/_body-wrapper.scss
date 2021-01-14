@@ -1,3 +1,14 @@
 .body-content {
-  padding-left: rem-calc(250);
+  margin-top: 3rem;
+  padding-left: rem-calc(265);
+  padding-right: rem-calc(30);
+}
+
+.page-title {
+  text-transform: capitalize;
+}
+
+.form-wrapper {
+  background: $light-gray;
+  padding: 3rem;
 }

@@ -8,19 +8,14 @@
   var tableData = JSON.parse('{{{data}}}')
   var dataType = '{{{type}}}'
   
-  if(dataType == 'monthly' || dataType == 'quarterly'){
-    var result = tableData.map(function(el) {
-      var column = Object.assign({}, el);
-      column.name = months[el.month];
-      return column;
-    })
-  }
-  
   var table = new Tabulator("#{{{tableId}}}", {
     layout: "fitColumns",
     resizableColumns:true,
+    dataTree:true,
+    dataTreeChildIndent:16,
+    dataTreeChildField:"summaryData",
+    dataTreeElementColumn:"name",
     columns: [
-      { title: "#", formatter:"rownum", frozen: true,  width:60, headerSort:false },
       { title: "Name", field: "name" },
       {
         title: "Performance",
@@ -40,7 +35,7 @@
         headerHozAlign: "center",
         columns: [
           {
-            title: "Transactions", field: "transaction", formatter:"money",  width:75, formatterParams: {precision: 0}, hozAlign: "right", bottomCalc: "sum"
+            title: "Transactions", field: "transaction", formatter:"money", formatterParams: {precision: 0}, hozAlign: "right", bottomCalc: "sum"
           },
           { title: "Ecommerce Conversion Rate", field: "ecomm_conversion_rate", hozAlign: "right", bottomCalc: "avg", formatter: percentageFormat, bottomCalcFormatter: percentageFormat},
           { title: "Revenue", field: "revenue", hozAlign: "right", formatter:"money", formatterParams: {

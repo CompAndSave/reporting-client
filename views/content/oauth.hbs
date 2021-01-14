@@ -1,0 +1,45 @@
+{{#if redirect_url}}
+<div class="grid-x grid-margin-x">
+  <div class="cell small-12 medium-4 form-wrapper">
+    <h2>Temporary Access</h2>
+    <p>Temporary access token will be given without having to re-enter your credentials info. Token expires in 1 hour.
+    </p>
+    <a href="{{redirect_url}}" class="button hollow">GET 1-HOUR ACCESS GRANT<br><small>Implicit Grant</small></a>
+  </div>
+  <div class="cell small-12 medium-4 form-wrapper">
+    <h2>One Month Access</h2>
+    <p>A longer time access token will be given without having to re-enter your credentials info. Token expires in 30
+      days.</p>
+    <div class="input-group ">
+      <span class="input-group-label"><i class="fas fa-user"></i></span>
+      <input class="input-group-field" id="username.authCodeGrant" type="text" name="username.authCodeGrant"
+        placeholder="Your AWS Cognito user name">
+      <div class="input-group-button">
+        <input type="submit" class="button" id="btnAuthCodeGrant" name="btnAuthCodeGrant" onclick="getAuthCodeToken()"
+          value="Go">
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function getAuthCodeToken() {
+    let userName = document.getElementById("username.authCodeGrant");
+    if (userName.value === "") { alert("User name cannot be empty"); }
+    else {
+      document.cookie = `AWSCognito_username=${userName.value}; path={{contextPath}}/; expires=Mon, 01 Jan 2100 00:00:00 UTC`;
+      window.location.replace("{{{auth_code_redirect_url}}}");
+    }
+  }
+</script>
+{{else}}
+<div class="grid-x grid-margin-x">
+  <div class="cell small-12 medium-6">
+    <div id="authResMessage" style="display: none;"></div>
+  </div>
+</div>
+<script src="{{contextPath}}/js/lib/ajaxCall.js"></script>
+<script src="{{contextPath}}/js/feature/auth.js"></script>
+<script>
+  passToken(window.location.hash, "{{contextPath}}");
+</script>
+{{/if}}

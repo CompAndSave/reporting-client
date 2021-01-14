@@ -1,17 +1,13 @@
+const serverless = require('serverless-http');
 var createError = require('http-errors');
 var express = require('express');
 var exphbs = require('express-handlebars');
 var hbsHelpers = require('./lib/hbs-helpers');
 var path = require('path');
 var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-const expressWinston = require('express-winston');
-const winston = require('winston');
-const moment = require('moment-timezone');
-const fs = require('fs');
-require('dotenv').config({ path: path.join(__dirname, '.env')});
-require('./initialize');
-const serverConfig = require('./server-config');
+require('./initialize-serverless');
+const serverConfig = require('./server-config.json');
+const asyncApi = require('./services/asyncApi');
 
 var indexRouter = require('./routes/index');
 var annualSummaryReportRouter = require('./routes/yearlyReport');
@@ -19,8 +15,7 @@ var quarterlySummaryReportRouter = require('./routes/quarterlyReport');
 var monthlySummaryReportRouter = require('./routes/monthlyReport');
 var campaignSummaryReportRouter = require('./routes/campaignReport');
 var authRouter = require('./routes/auth');
-var importRouter = require('./routes/import');
-// var testRouter = require('./routes/test');
+var importRouter = require('./routes/import-serverless');
 
 var app = express();
 
@@ -39,24 +34,6 @@ app.get(`${serverConfig.ContextPath}/scripts/tabulator.min.js`, function(req, re
   res.sendFile(__dirname + '/node_modules/tabulator-tables/dist/js/tabulator.min.js');
 });
 
-//Stylesheet processing with sass
-require('sass');
-var sassMiddleware = require('node-sass-middleware');
-app.use(
-  sassMiddleware({
-    src: path.join(__dirname, 'scss'),
-    dest: path.join(__dirname + '/public/style'),
-    includePaths: [
-      path.join(__dirname, 'node_modules/foundation-sites'),
-      path.join(__dirname, 'node_modules/@fortawesome/fontawesome-free'),
-      path.join(__dirname, 'node_modules/tabulator-tables/src')
-    ],
-    prefix: '/style',
-    debug: false,
-    outputStyle: 'extended',
-  })
-);
-
 // view engine setup
 var hbs = exphbs.create({
   defaultLayout: "index",
@@ -71,14 +48,6 @@ var hbs = exphbs.create({
 app.set('views', path.join(__dirname, 'views'));
 app.engine('hbs', hbs.engine);
 app.set('view engine', 'hbs');
-
-// app.use(logger('dev'));
-// log all requests to access.log
-logger.token('date', ()=> { return moment().tz(Intl.DateTimeFormat().resolvedOptions().timeZone).format(); });
-logger.format('accessLogFormat', ':remote-addr - :remote-user [:date] ":method :url HTTP/:http-version" :status :res[content-length]');
-app.use(logger('accessLogFormat', {
-  stream: fs.createWriteStream(path.join(__dirname, serverConfig.AccessLogPath), { flags: 'a' })
-}));
 
 // To fix the Error: request entity too large
 // https://stackoverflow.com/questions/19917401/error-request-entity-too-large
@@ -96,44 +65,19 @@ app.use(`${serverConfig.ContextPath}/monthly-report`, monthlySummaryReportRouter
 app.use(`${serverConfig.ContextPath}/campaign-report`, campaignSummaryReportRouter);
 app.use(`${serverConfig.ContextPath}/auth`, authRouter);
 app.use(`${serverConfig.ContextPath}/import`, importRouter);
-// app.use(`${serverConfig.ContextPath}/test`, testRouter);
-
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
 });
 
-// log all express handler errors to files
-app.use(expressWinston.errorLogger({
-  transports: [
-    new winston.transports.File({ filename: path.join(__dirname, serverConfig.ExpressErrorLogPath), level: 'error' })
-  ],
-  format: winston.format.combine(
-    winston.format.json()
-  ),
-  expressFormat: true,
-  statusLevels: false,
-  level: function (err, req, res, next) {
-    var level = "";
-    if (res.statusCode >= 100) { level = "info"; }
-    if (res.statusCode >= 400) { level = "warn"; }
-    if (res.statusCode >= 500 || typeof res.statusCode === 'undefined') { level = "error"; }
-    // Ops is worried about hacking attempts so make Unauthorized and Forbidden critical
-    // Cannot find a way to customize the levels for expressWinston
-    if (res.statusCode == 401 || res.statusCode == 403) { level = "error"; }
-    // No one should be using the old path, so always warn for those
-    // if (req.path === "/v1" && level === "info") { level = "warn"; }
-    return level;
-  }
-}));
-
 // error handler
 app.use(function(err, req, res, next) {
-  console.log("enter default express error handler!");
+  console.log(err);
+  
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = process.env.NODE_DEV === 'development' ? err : {};
 
   let resData = { contextPath: serverConfig.ContextPath };
 
@@ -149,4 +93,20 @@ app.use(function(err, req, res, next) {
   res.render('layout/defaultView', resData);
 });
 
-module.exports = app;
+const handler = serverless(app);
+module.exports.handler = async (event, context) => {
+
+  // if SNS event, route to SNS worker
+  if (event.Records) {
+    console.log(JSON.stringify(event.Records));
+
+    let error;
+    await asyncApi.worker(event.Records[0].Sns.Message).catch(err => error = err);
+    if (error) { console.log(error); }
+  }
+  // if not SQS event, route to ExpressJS
+  else {
+    const result = await handler(event, context);
+    return result;
+  }
+};

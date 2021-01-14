@@ -1,8 +1,13 @@
 <div class="grid-x">
-    <div class="cell">
-      {{> base/table tabledata=data }}
-
-
-      {{> base/tabulator}}
-    </div>
+  <div class="cell">
+    {{#if data }}
+      {{#if (compare tableType '==' 'tree') }}
+        {{> base/tabulator-tree}}
+      {{else}}
+        {{> base/tabulator tableId = tableId }}
+      {{/if}}
+    {{else}}
+      <p>Data is not ready</p>
+    {{/if}}
   </div>
+</div>

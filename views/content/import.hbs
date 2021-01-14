@@ -1,0 +1,88 @@
+<div class="grid-x grid-margin-x">
+  <div class="cell small-12 medium-6">
+    <div id="authResMessage" style="display: none;"></div>
+  </div>
+</div>
+
+{{#if waiting_status}}
+Fetch Data Status: <span class="badge {{#if (compare status '===' 'done')}}success{{else}}warning{{/if}}">{{#if (compare status '===' 'done')}}<i class="far fa-check-circle"></i>{{else}}<i class="far fa-clock"></i>{{/if}} {{status}}</span>
+{{#if message}}<BR>Response Message: {{message}}{{/if}}
+{{#if (compare status '===' 'pending')}}
+<BR>
+<button class="button" id="btnReloadPage" name="btnReloadPage" onclick="reloadPage()">Refresh Page</button>
+<script>
+  function reloadPage() {
+    location.reload();
+  }
+</script>
+{{/if}}
+{{else}}
+<div class="grid-x grid-margin-x">
+  <div class="cell small-12 medium-6 large-3 form-wrapper">
+    <label>Site Name
+      <select id="siteSelect" name="siteSelect">
+        <option value="cas" selected>CompAndSave</option>
+        <option value="ci">ComboInk</option>
+        <option value="ti">TomatoInk</option>
+      </select>
+    </label>
+    <label>Fetch Mode
+      <select id="modeSelect" name="modeSelect" onchange="manualSelect()">
+        <option value="full" selected>Full</option>
+        <option value="quick">Quick</option>
+        <option value="manual">Manual</option>
+      </select>
+    </label>
+      <select name="manualCampaignSelect" id="manualCampaignSelect" hidden>
+        <option value="" selected>Select Report Type</option>
+        <option value="mc-campaign">MailChimp Campaign</option>
+        <option value="mc-report">MailChimp Report</option>
+        <option value="ga-report">Google Analytics Report</option>
+      </select>
+    <label>
+      Report Start Date
+      <input id="inputStartTime" name="inputStartTime" type="date" aria-describedby="startTimeHelpText">
+    </label><br>
+    {{#unless host_instance}}
+    <button class="button" id="btnImportDataAndWait" name="btnImportDataAndWait" onclick="importRequest(true)">Fetch
+      Data and Wait</button>
+    <button class="button" id="btnImportDataNotWait" name="btnImportDataNotWait" onclick="importRequest(false)">Fetch
+      Data and Not Wait</button>
+    {{else}}
+    <button class="button" id="btnImportDataNotWait" name="btnImportDataNotWait" onclick="importRequest(false, true)">Fetch
+      Data</button>
+    {{/unless}}
+  </div>
+  <div class="cell small-12 medium-6 large-3">
+    <div class="callout">
+      <h5>Fetch Mode:</h5>
+      <ul>
+        <li><strong>Full:</strong> Import all Mailchimp campaign and report data plus Google Analytics report data.</li>
+        <li><strong>Quick:</strong> Import Mailchimp or Google Analytics report data only.</li>
+        <li><strong>Manual:</strong> Manually select the data to import; Mailchimp campaign data, Mailchimp report data or GA report data.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+<script src="{{contextPath}}/js/lib/ajaxCall.js"></script>
+<script src="{{contextPath}}/js/feature/import.js"></script>
+<script>
+  let site = document.getElementById("siteSelect");
+  let mode = document.getElementById("modeSelect");
+  let manual = document.getElementById("manualCampaignSelect");
+  let startTime = document.getElementById("inputStartTime");
+
+  function manualSelect() {
+   manual.hidden = (mode.value !== "manual");
+  }
+
+  function importRequest(wait, isHosted) {
+    importData({
+      site: site.value,
+      mode: mode.value,
+      manual: mode.value === "manual" ? manual.value : undefined,
+      startTime: startTime.value
+    }, '{{contextPath}}', wait, isHosted);
+  }
+</script>
+{{/if}}

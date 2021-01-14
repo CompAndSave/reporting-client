@@ -1,5 +1,9 @@
 {
     "AccessLogPath": "logs/access.log",
     "ExpressErrorLogPath": "logs/express-error.log",
-    "CustomErrorLogPath": "logs/error.log"
+    "CustomErrorLogPath": "logs/error.log",
+    "ContextPath": "/mc",
+    "MaxTimeout": 30000,
+    "CheckTimeRange": 2000,
+    "AsyncApiRedisPrefix": "ASYNC_API_"
 }
