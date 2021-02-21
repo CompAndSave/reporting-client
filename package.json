@@ -6,40 +6,52 @@
     "start": "node ./bin/www",
     "lint": "eslint ."
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CompAndSave/reporting-client"
+  },
+  "authors": [
+    "Andrew Yeung",
+    "Nelly Goh"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CompAndSave/reporting-client/issues"
+  },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^5.14.0",
-    "amazon-cognito-identity-js": "^4.5.5",
-    "async-api-queue": "^0.1.0",
-    "aws-cognito-ops": "^0.1.7",
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "amazon-cognito-identity-js": "^4.5.11",
+    "async-api-queue": "^0.1.4",
+    "aws-cognito-ops": "^0.1.8",
     "axios": "^0.21.1",
-    "cas-common-lib": "^0.5.2",
+    "cas-common-lib": "^0.5.3",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
-    "debug": "^4.1.1",
+    "debug": "^4.3.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "express-async-handler": "^1.1.4",
-    "express-handlebars": "^5.2.0",
-    "express-winston": "^4.0.5",
+    "express-handlebars": "^5.2.1",
+    "express-winston": "^4.1.0",
     "foundation-sites": "^6.6.3",
     "fs": "0.0.1-security",
     "hbs": "^4.1.1",
     "helmet": "^3.23.3",
     "http-errors": "^1.8.0",
-    "moment-timezone": "^0.5.32",
+    "moment-timezone": "^0.5.33",
     "morgan": "^1.10.0",
-    "nodemon": "^2.0.4",
-    "qs": "^6.9.4",
-    "serverless-http": "^2.6.0",
-    "tabulator-tables": "^4.9.1",
+    "nodemon": "^2.0.7",
+    "qs": "^6.9.6",
+    "serverless-http": "^2.7.0",
+    "tabulator-tables": "^4.9.3",
     "winston": "^3.3.3"
   },
   "devDependencies": {
     "babel-eslint": "^10.1.0",
-    "browser-sync": "^2.26.13",
-    "eslint": "^7.9.0",
+    "browser-sync": "^2.26.14",
+    "eslint": "^7.20.0",
     "node-sass-middleware": "^0.11.0",
-    "sass": "^1.30.0",
-    "serverless-dotenv-plugin": "^3.1.0"
+    "sass": "^1.32.8",
+    "serverless-dotenv-plugin": "^3.7.2"
   }
 }
