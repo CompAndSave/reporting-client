@@ -10,7 +10,7 @@ router.get('/', asyncHandler(async (req, res, next) => {
     meta_title: 'OAuth',
     body_content: 'oauth',
     contextPath: serverConfig.ContextPath,
-    redirect_url: Cognito.implictGrantUrl,
+    redirect_url: Cognito.implicitGrantUrl,
     auth_code_redirect_url: Cognito.authCodeGrantUrl
   });
 }));

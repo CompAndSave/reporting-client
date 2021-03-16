@@ -22,7 +22,7 @@
     "@fortawesome/fontawesome-free": "^5.15.2",
     "amazon-cognito-identity-js": "^4.5.11",
     "async-api-queue": "^0.1.4",
-    "aws-cognito-ops": "^0.1.8",
+    "aws-cognito-ops": "^0.3.9",
     "axios": "^0.21.1",
     "cas-common-lib": "^0.5.3",
     "cookie-parser": "^1.4.5",
