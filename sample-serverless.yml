@@ -2,6 +2,10 @@ service: mc-report-client-serverless
 plugins:
   - serverless-dotenv-plugin
 
+package:
+  patterns:
+    - '!target/**'
+
 provider:
   name: aws
   runtime: nodejs12.x
